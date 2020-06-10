@@ -20,10 +20,6 @@ public class ArtistsService implements IArtistsService {
 	@Autowired
 	private ArtistsDao artistsDao;
 	@Autowired
-	private ArtistsGenresDao artistsGenresDao;
-	@Autowired
-	private GenresDao genresDao;
-	@Autowired
 	private DefaultOntimizeDaoHelper daoHelper;
 
 	@Override
@@ -46,50 +42,6 @@ public class ArtistsService implements IArtistsService {
 	@Override
 	public EntityResult artistsDelete(Map<String, Object> keyMap) throws OntimizeJEERuntimeException {
 		return this.daoHelper.delete(this.artistsDao, keyMap);
-	}
-
-	@Override
-	public EntityResult artistsGenresQuery(Map<String, Object> keyMap, List<String> attrlist)
-			throws OntimizeJEERuntimeException {
-		return this.daoHelper.query(this.artistsGenresDao, keyMap, attrlist);
-	}
-
-	@Override
-	public EntityResult artistsGenresInsert(Map<String, Object> attrMap) throws OntimizeJEERuntimeException {
-		return this.daoHelper.insert(this.artistsGenresDao, attrMap);
-	}
-
-	@Override
-	public EntityResult artistsGenresUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap)
-			throws OntimizeJEERuntimeException {
-		return this.daoHelper.update(this.artistsGenresDao, attrMap, keyMap);
-	}
-
-	@Override
-	public EntityResult artistsGenresDelete(Map<String, Object> keyMap) throws OntimizeJEERuntimeException {
-		return this.daoHelper.delete(this.artistsGenresDao, keyMap);
-	}
-
-	@Override
-	public EntityResult genresQuery(Map<String, Object> keyMap, List<String> attrlist)
-			throws OntimizeJEERuntimeException {
-		return this.daoHelper.query(this.genresDao, keyMap, attrlist);
-	}
-
-	@Override
-	public EntityResult genresInsert(Map<String, Object> attrMap) throws OntimizeJEERuntimeException {
-		return this.daoHelper.insert(this.genresDao, attrMap);
-	}
-
-	@Override
-	public EntityResult genresUpdate(Map<String, Object> attrMap, Map<String, Object> keyMap)
-			throws OntimizeJEERuntimeException {
-		return this.daoHelper.update(this.genresDao, attrMap, keyMap);
-	}
-
-	@Override
-	public EntityResult genresDelete(Map<String, Object> keyMap) throws OntimizeJEERuntimeException {
-		return this.daoHelper.delete(this.genresDao, keyMap);
 	}
 
 }

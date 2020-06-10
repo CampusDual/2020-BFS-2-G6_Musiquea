@@ -8,14 +8,15 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.campusdual.musiquea.api.core.service.IConcertsService;
+import com.campusdual.musiquea.model.core.dao.CollaboratorsConcertsDao;
+import com.campusdual.musiquea.model.core.dao.ConcertsDao;
+import com.campusdual.musiquea.model.core.dao.ConfigurationsDao;
+import com.campusdual.musiquea.model.core.dao.PlacesDao;
+import com.campusdual.musiquea.model.core.dao.TypesDao;
+import com.campusdual.musiquea.model.core.dao.ViewersDao;
 import com.ontimize.db.EntityResult;
-import com.ontimize.hr.model.core.dao.ConcertsDao;
-import com.ontimize.hr.model.core.dao.ViewersDao;
-import com.ontimize.hr.model.core.dao.TypesDao;
-import com.ontimize.hr.model.core.dao.PlacesDao;
-import com.ontimize.hr.model.core.dao.CollaboratorsConcertsDao;
-import com.ontimize.hr.model.core.dao.ConfigurationsDao;
 import com.ontimize.jee.common.exceptions.OntimizeJEERuntimeException;
+import com.ontimize.jee.server.dao.DefaultOntimizeDaoHelper;
 
 @Service("ConcertsService")
 @Lazy
@@ -33,6 +34,8 @@ public class ConcertsService implements IConcertsService {
 	private CollaboratorsConcertsDao collaboratorsConcertsDao;
 	@Autowired
 	private ConfigurationsDao configurationsDao;
+	@Autowired
+	private DefaultOntimizeDaoHelper daoHelper;
 
 	@Override
 	public EntityResult concertsQuery(Map<String, Object> keyMap, List<String> attrlist)
