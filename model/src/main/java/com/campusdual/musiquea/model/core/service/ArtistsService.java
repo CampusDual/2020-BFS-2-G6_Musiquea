@@ -8,10 +8,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.campusdual.musiquea.api.core.service.IArtistsService;
+import com.campusdual.musiquea.model.core.dao.ArtistsDao;
 import com.ontimize.db.EntityResult;
-import com.ontimize.hr.model.core.dao.ArtistsDao;
-import com.ontimize.hr.model.core.dao.ArtistsGenresDao;
-import com.ontimize.hr.model.core.dao.GenresDao;
 import com.ontimize.jee.common.exceptions.OntimizeJEERuntimeException;
 import com.ontimize.jee.server.dao.DefaultOntimizeDaoHelper;
 
@@ -25,6 +23,8 @@ public class ArtistsService implements IArtistsService {
 	private ArtistsGenresDao artistsGenresDao;
 	@Autowired
 	private GenresDao genresDao;
+	@Autowired
+	private DefaultOntimizeDaoHelper daoHelper;
 
 	@Override
 	public EntityResult artistsQuery(Map<String, Object> keyMap, List<String> attrlist)
