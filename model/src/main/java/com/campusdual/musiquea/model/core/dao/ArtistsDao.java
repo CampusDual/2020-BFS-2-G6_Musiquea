@@ -11,8 +11,8 @@ import com.ontimize.jee.server.dao.jdbc.OntimizeJdbcDaoSupport;
 @ConfigurationFile(configurationFile = "dao/ArtistsDao.xml", configurationFilePlaceholder = "dao/placeholders.properties")
 public class ArtistsDao extends OntimizeJdbcDaoSupport {
 
- public static final String ATTR_ARTISTS_ID = "ARTISTS_ID";
- public static final String ATTR_ARTISTS_NAME = "ARTISTS_NAME";
- public static final String ATTR_ARTISTS_IMAGE = "ARTISTS_IMAGE";
+ public static final String ATTR_ARTIST_ID = "ARTIST_ID";
+ public static final String ATTR_ARTIST_NAME = "ARTIST_NAME";
+ public static final String ATTR_ARTIST_IMAGE = "ARTIST_IMAGE";
  
 }
