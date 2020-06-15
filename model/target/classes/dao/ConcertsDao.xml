@@ -26,7 +26,7 @@
                     left outer join ${mainschema}.COLLABORATORS_CONCERTS CC ON C.CONCERT_ID = CC.CONCERT_ID
                     #WHERE#
                     GROUP BY (C.CONCERT_ID, C.CONCERT_DATE, C.TYPE_ID, P.PLACE_NAME, P.CITY, V.COUNT_VIEWERS, A.ARTIST_NAME)
-                    ORDER BY V.COUNT_VIEWERS DESC, COLLABORATORS DESC
+                    ORDER BY V.COUNT_VIEWERS, COLLABORATORS  DESC
                 ]]>
             </Sentence>
 		</Query>

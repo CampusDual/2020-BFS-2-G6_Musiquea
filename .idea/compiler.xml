@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="musiquea-model" />
+        <module name="musiquea-api" />
+        <module name="musiquea-boot" />
+        <module name="musiquea-frontend" />
+        <module name="musiquea-ws" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="musiquea" target="1.8" />
+      <module name="musiquea-api" target="1.8" />
+      <module name="musiquea-boot" target="1.8" />
+      <module name="musiquea-frontend" target="1.8" />
+      <module name="musiquea-model" target="1.8" />
+      <module name="musiquea-ws" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="musiquea-api" options="-parameters" />
+      <module name="musiquea-boot" options="-parameters" />
+      <module name="musiquea-frontend" options="-parameters" />
+      <module name="musiquea-model" options="-parameters" />
+      <module name="musiquea-ws" options="-parameters" />
+    </option>
+  </component>
+</project>
