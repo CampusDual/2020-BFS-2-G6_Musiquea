@@ -1,8 +1,5 @@
 package com.campusdual.musiquea.ws.core.rest;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
@@ -26,10 +23,10 @@ public class ConcertsController extends ORestController<IConcertsService> {
 	public IConcertsService getService() {
 		return this.concertsService;
 	}
-	
+
 	@RequestMapping(value = "/recommendedConcerts", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public EntityResult getRecommendedConcerts(){
-		
+	public EntityResult getRecommendedConcerts() {
+
 		return this.concertsService.recommendedConcertsQuery();
 	}
 

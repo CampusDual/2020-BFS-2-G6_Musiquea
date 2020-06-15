@@ -26,8 +26,6 @@ import com.ontimize.jee.server.dao.DefaultOntimizeDaoHelper;
 public class ConcertsService implements IConcertsService {
 
 	@Autowired
-	private ArtistsDao artistsDao;
-	@Autowired
 	private ConcertsDao concertsDao;
 	@Autowired
 	private ViewersDao viewersDao;
@@ -189,7 +187,7 @@ public class ConcertsService implements IConcertsService {
 	}
 
 	private EntityResult getRecommendedConcerts() {
-		return this.daoHelper.query(this.concertsDao, new java.util.HashMap(),
+		return this.daoHelper.query(this.concertsDao, new HashMap(),
 				java.util.Arrays.asList(("C." + ConcertsDao.ATTR_CONCERT_ID),
 						/* ConcertsDao.ATTR_CONCERT_IMAGE, */ ConcertsDao.ATTR_CONCERT_DATE, ConcertsDao.ATTR_TYPE_ID,
 						PlacesDao.ATTR_PLACE_NAME, PlacesDao.ATTR_CITY, ViewersDao.ATTR_COUNT_VIEWERS,
@@ -198,7 +196,7 @@ public class ConcertsService implements IConcertsService {
 	}
 
 	private int getMaxConcertRecommended() {
-		EntityResult config = this.configurationsQuery(new java.util.HashMap<String, Object>(),
+		EntityResult config = this.configurationsQuery(new HashMap(),
 				Arrays.asList(ConfigurationsDao.ATTR_MAX_CONCERT_RECOMMENDATIONS));
 
 		String[] parts1 = config.get(ConfigurationsDao.ATTR_MAX_CONCERT_RECOMMENDATIONS).toString().split("\\[");

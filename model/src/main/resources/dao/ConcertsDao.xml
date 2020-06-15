@@ -17,13 +17,15 @@
 			<Sentence>
                 <![CDATA[
                     SELECT 
-                        #COLUMNS#
+                        #COLUMNS#, COUNT(CC.COLLABORATOR_ID) AS COLLABORATORS
                     FROM                        
                         ${mainschema}.CONCERTS C
                     LEFT OUTER JOIN ${mainschema}.VIEWERS V ON C.CONCERT_ID = V.CONCERT_ID
                     LEFT OUTER JOIN ${mainschema}.PLACES P ON C.PLACE_ID = P.PLACE_ID
                     LEFT OUTER JOIN ${mainschema}.ARTISTS A ON C.ARTIST_ID = A.ARTIST_ID
+                    LEFT OUTER JOIN ${mainschema}.COLLABORATORS_CONCERTS CC ON C.CONCERT_ID = CC.CONCERT_ID
                     #WHERE#
+                    GROUP BY #COLUMNS#
                     ORDER BY V.COUNT_VIEWERS DESC
                 ]]>
             </Sentence>
