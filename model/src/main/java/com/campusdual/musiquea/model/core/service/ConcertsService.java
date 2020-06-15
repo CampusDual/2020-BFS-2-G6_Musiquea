@@ -1,5 +1,7 @@
 package com.campusdual.musiquea.model.core.service;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +10,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.campusdual.musiquea.api.core.service.IConcertsService;
+import com.campusdual.musiquea.model.core.dao.ArtistsDao;
 import com.campusdual.musiquea.model.core.dao.CollaboratorsConcertsDao;
 import com.campusdual.musiquea.model.core.dao.ConcertsDao;
 import com.campusdual.musiquea.model.core.dao.ConfigurationsDao;
@@ -167,6 +170,40 @@ public class ConcertsService implements IConcertsService {
 	@Override
 	public EntityResult configurationsDelete(Map<String, Object> keyMap) throws OntimizeJEERuntimeException {
 		return this.daoHelper.delete(this.configurationsDao, keyMap);
+	}
+
+	@Override
+	public EntityResult recommendedConcertsQuery() throws OntimizeJEERuntimeException {
+
+		EntityResult res = getRecommendedConcerts();
+
+		EntityResult finalRes = new EntityResult();
+
+		for (int i = 0; i < getMaxConcertRecommended(); i++) {
+			finalRes.addRecord(res.getRecordValues(i));
+		}
+
+		return finalRes;
+	}
+
+	private EntityResult getRecommendedConcerts() {
+		return this.daoHelper.query(this.concertsDao, new HashMap(),
+				java.util.Arrays.asList(("C." + ConcertsDao.ATTR_CONCERT_ID),
+						/* ConcertsDao.ATTR_CONCERT_IMAGE, */ ConcertsDao.ATTR_CONCERT_DATE, ConcertsDao.ATTR_TYPE_ID,
+						PlacesDao.ATTR_PLACE_NAME, PlacesDao.ATTR_CITY, ViewersDao.ATTR_COUNT_VIEWERS,
+						ArtistsDao.ATTR_ARTIST_NAME),
+				"recommendedConcerts");
+	}
+
+	private int getMaxConcertRecommended() {
+		EntityResult config = this.configurationsQuery(new HashMap(),
+				Arrays.asList(ConfigurationsDao.ATTR_MAX_CONCERT_RECOMMENDATIONS));
+
+		String[] parts1 = config.get(ConfigurationsDao.ATTR_MAX_CONCERT_RECOMMENDATIONS).toString().split("\\[");
+		String[] parts2 = parts1[1].split("\\]");
+		String numberRecommeded = parts2[0];
+
+		return Integer.parseInt(numberRecommeded);
 	}
 
 }

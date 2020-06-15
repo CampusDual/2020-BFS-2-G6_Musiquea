@@ -1,15 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <JdbcEntitySetup
- xmlns="http://www.ontimize.com/schema/jdbc"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://www.ontimize.com/schema/jdbc http://www.ontimize.com/schema/jdbc/ontimize-jdbc-dao.xsd"
- catalog="" schema="${mainschema}" table="CONCERTS"
- datasource="mainDataSource" sqlhandler="dbSQLStatementHandler">
- <DeleteKeys>
-  <Column>ID</Column>
- </DeleteKeys>
- <UpdateKeys>
-  <Column>ID</Column>
- </UpdateKeys>
- <GeneratedKey>ID</GeneratedKey>
+	xmlns="http://www.ontimize.com/schema/jdbc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ontimize.com/schema/jdbc http://www.ontimize.com/schema/jdbc/ontimize-jdbc-dao.xsd"
+	catalog="" schema="${mainschema}" table="CONCERTS"
+	datasource="mainDataSource" sqlhandler="dbSQLStatementHandler">
+	<DeleteKeys>
+		<Column>ID</Column>
+	</DeleteKeys>
+	<UpdateKeys>
+		<Column>ID</Column>
+	</UpdateKeys>
+	<GeneratedKey>ID</GeneratedKey>
+	<Queries>
+		<Query id="recommendedConcerts">
+			<Sentence>
+                <![CDATA[
+                    SELECT 
+                        #COLUMNS#, COUNT(CC.COLLABORATOR_ID) AS COLLABORATORS
+                    FROM                        
+                        ${mainschema}.CONCERTS C
+                    LEFT OUTER JOIN ${mainschema}.VIEWERS V ON C.CONCERT_ID = V.CONCERT_ID
+                    LEFT OUTER JOIN ${mainschema}.PLACES P ON C.PLACE_ID = P.PLACE_ID
+                    LEFT OUTER JOIN ${mainschema}.ARTISTS A ON C.ARTIST_ID = A.ARTIST_ID
+                    LEFT OUTER JOIN ${mainschema}.COLLABORATORS_CONCERTS CC ON C.CONCERT_ID = CC.CONCERT_ID
+                    #WHERE#
+                    GROUP BY #COLUMNS#
+                    ORDER BY V.COUNT_VIEWERS DESC
+                ]]>
+            </Sentence>
+		</Query>
+	</Queries>
 </JdbcEntitySetup>
