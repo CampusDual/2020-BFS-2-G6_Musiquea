@@ -1,21 +1,23 @@
-<div fxLayout="row" layout-padding fxLayoutAlign="center center">
-  <h1><a routerLink="recommendations" (click)="goHome()">MUSIQUEA</a></h1>
-</div>
-<div fxLayout="row" layout-padding fxLayoutAlign="center center">
-  <form #myform="ngForm">
-    <div id="formSearch">
-      <label>
-        <input type="search" name="search" id="inputSearch" (keydown.enter)="onSubmit(myform)">
-      </label>
-    </div>
-    <div id="formMonth">
-      <label for="month">Mes:</label>
-      <select name="month" id="month">
-        <option selected disabled>Selecciona un mes...</option>
-      </select>
-    </div>
-  </form>
-</div>
+<header>
+  <div id="title_musiquea" fxLayout="row" layout-padding fxLayoutAlign="center center">
+    <h1><a routerLink="recommendations" (click)="goHome()">MUSIQUEA</a></h1>
+  </div>
+  <div id="div_search" fxLayout="row" layout-padding fxLayoutAlign="center center">
+    <form #myform="ngForm">
+      <div id="formSearch">
+        <label for="inputSearch"></label>
+        <input type="search" name="search" id="inputSearch" (keydown.enter)="onSubmit(myform)" placeholder="Buscar...">
+      </div>
+      <div id="formMonth">
+        <label for="month">Mes: </label>
+        <select name="month" id="month">
+          <option selected disabled>Selecciona un mes...</option>
+        </select>
+      </div>
+    </form>
+  </div>
+</header>
+<p class="whiteSpace">MUSIQUEA</p>
 <div fxLayout="row" layout-padding fxLayoutAlign="center center">
   <router-outlet></router-outlet>
 </div>

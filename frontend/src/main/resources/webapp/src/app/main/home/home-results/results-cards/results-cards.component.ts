@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ResultsCardsComponent implements OnInit {
 
-  cards = new Array(3);
+  cards = new Array(5);
 
   constructor() { }
 

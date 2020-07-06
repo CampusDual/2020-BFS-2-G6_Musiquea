@@ -40,29 +40,37 @@ export class HomeComponent implements OnInit {
   getNextMonths() {
     let select = document.getElementById("month");
     let currentDate = new Date();
-    let currentMonth = (currentDate.getUTCMonth()+1);
+    let currentMonth = (currentDate.getUTCMonth() + 1);
     let month = currentMonth;
-    do {
+    let firstOption = true;
+
+    if (firstOption) {
       let option = document.createElement('option');
       let year = currentDate.getUTCFullYear();
+      let day;
+
+      if (currentDate.getUTCDate() >= 1 && currentDate.getUTCDate() <= 9) {
+        day = "-0" + (currentDate.getUTCDate());
+      }
+
       if (month == 12) {
-        option.value = year + "-" + month + "-01/" + (year+1) + "-01-01";
+        option.value = year + "-" + month + day + (year + 1) + "-01-01";
       } else {
-        if (month >=1 && month <= 9 && (month+1) != 10) {
-          option.value = year + "-0" + month + "-01/" + year + "-0" + (month+1) + "-01";
-        } else if(month >=1 && month <= 9 && (month+1) == 10) {
-          option.value = year + "-0" + month + "-01/" + year + "-" + (month+1) + "-01";
+        if (month >= 1 && month <= 9 && (month + 1) != 10) {
+          option.value = year + "-0" + month + day + "/" + year + "-0" + (month + 1) + "-01";
+        } else if (month >= 1 && month <= 9 && (month + 1) == 10) {
+          option.value = year + "-0" + month + day + year + "-" + (month + 1) + "-01";
         } else {
-          option.value = year + "-" + month + "-01/" + year + "-" + (month+1) + "-01";
+          option.value = year + "-" + month + day + year + "-" + (month + 1) + "-01";
         }
       }
-      
+
       switch (month) {
         case 1:
           option.innerHTML = "Enero";
           break;
         case 2:
-        option.innerHTML = "Febrero";
+          option.innerHTML = "Febrero";
           break;
         case 3:
           option.innerHTML = "Marzo";
@@ -71,7 +79,7 @@ export class HomeComponent implements OnInit {
           option.innerHTML = "Abril";
           break;
         case 5:
-        option.innerHTML = "Mayo";
+          option.innerHTML = "Mayo";
           break;
         case 6:
           option.innerHTML = "Junio";
@@ -83,13 +91,70 @@ export class HomeComponent implements OnInit {
           option.innerHTML = "Agosto";
           break;
         case 9:
-        option.innerHTML = "Septiembre";
+          option.innerHTML = "Septiembre";
           break;
         case 10:
           option.innerHTML = "Octubre";
           break;
         case 11:
-        option.innerHTML = "Noviembre";
+          option.innerHTML = "Noviembre";
+          break;
+        case 12:
+          option.innerHTML = "Diciembre";
+          break;
+      }
+      select.appendChild(option);
+      month++;
+    }
+
+    do {
+      let option = document.createElement('option');
+      let year = currentDate.getUTCFullYear();
+      if (month == 12) {
+        option.value = year + "-" + month + "-01/" + (year + 1) + "-01-01";
+      } else {
+        if (month >= 1 && month <= 9 && (month + 1) != 10) {
+          option.value = year + "-0" + month + "-01/" + year + "-0" + (month + 1) + "-01";
+        } else if (month >= 1 && month <= 9 && (month + 1) == 10) {
+          option.value = year + "-0" + month + "-01/" + year + "-" + (month + 1) + "-01";
+        } else {
+          option.value = year + "-" + month + "-01/" + year + "-" + (month + 1) + "-01";
+        }
+      }
+
+      switch (month) {
+        case 1:
+          option.innerHTML = "Enero";
+          break;
+        case 2:
+          option.innerHTML = "Febrero";
+          break;
+        case 3:
+          option.innerHTML = "Marzo";
+          break;
+        case 4:
+          option.innerHTML = "Abril";
+          break;
+        case 5:
+          option.innerHTML = "Mayo";
+          break;
+        case 6:
+          option.innerHTML = "Junio";
+          break;
+        case 7:
+          option.innerHTML = "Julio";
+          break;
+        case 8:
+          option.innerHTML = "Agosto";
+          break;
+        case 9:
+          option.innerHTML = "Septiembre";
+          break;
+        case 10:
+          option.innerHTML = "Octubre";
+          break;
+        case 11:
+          option.innerHTML = "Noviembre";
           break;
         case 12:
           option.innerHTML = "Diciembre";
@@ -103,20 +168,20 @@ export class HomeComponent implements OnInit {
 
     do {
       let option = document.createElement('option');
-      let year = currentDate.getUTCFullYear()+1;
-      if (month >=1 && month <= 9 && (month+1) != 10) {
-        option.value = year + "-0" + month + "-01/" + year + "-0" + (month+1) + "-01";
-      } else if(month >=1 && month <= 9 && (month+1) == 10) {
-        option.value = year + "-0" + month + "-01/" + year + "-" + (month+1) + "-01";
+      let year = currentDate.getUTCFullYear() + 1;
+      if (month >= 1 && month <= 9 && (month + 1) != 10) {
+        option.value = year + "-0" + month + "-01/" + year + "-0" + (month + 1) + "-01";
+      } else if (month >= 1 && month <= 9 && (month + 1) == 10) {
+        option.value = year + "-0" + month + "-01/" + year + "-" + (month + 1) + "-01";
       } else {
-        option.value = year + "-" + month + "-01/" + year + "-" + (month+1) + "-01";
+        option.value = year + "-" + month + "-01/" + year + "-" + (month + 1) + "-01";
       }
       switch (month) {
         case 1:
           option.innerHTML = "Enero";
           break;
         case 2:
-        option.innerHTML = "Febrero";
+          option.innerHTML = "Febrero";
           break;
         case 3:
           option.innerHTML = "Marzo";
@@ -125,7 +190,7 @@ export class HomeComponent implements OnInit {
           option.innerHTML = "Abril";
           break;
         case 5:
-        option.innerHTML = "Mayo";
+          option.innerHTML = "Mayo";
           break;
         case 6:
           option.innerHTML = "Junio";
@@ -137,13 +202,13 @@ export class HomeComponent implements OnInit {
           option.innerHTML = "Agosto";
           break;
         case 9:
-        option.innerHTML = "Septiembre";
+          option.innerHTML = "Septiembre";
           break;
         case 10:
           option.innerHTML = "Octubre";
           break;
         case 11:
-        option.innerHTML = "Noviembre";
+          option.innerHTML = "Noviembre";
           break;
         case 12:
           option.innerHTML = "Diciembre";

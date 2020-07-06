@@ -5,6 +5,7 @@ import { HomeComponent } from './home.component';
 import { HomeRecommendationsModule } from './home-recommendations/home-recommendations.module';
 import { HomeResultsModule } from './home-results/home-results.module';
 import { AuthGuardService } from 'ontimize-web-ngx';
+import { ConcertsModule } from '../concerts/concerts.module';
 
 export function loadHomeRecommendationsModule() {
   return HomeRecommendationsModule;
@@ -12,6 +13,10 @@ export function loadHomeRecommendationsModule() {
 
 export function loadHomeResultsModule() {
   return HomeResultsModule;
+}
+
+export function loadConcertsDetailsModule() {
+  return ConcertsModule;
 }
 
 const routes: Routes = [
@@ -28,6 +33,10 @@ const routes: Routes = [
       {
         path: 'results',
         loadChildren: loadHomeResultsModule
+      },
+      {
+        path: 'concert-details',
+        loadChildren: loadConcertsDetailsModule
       }
     ]
   }
