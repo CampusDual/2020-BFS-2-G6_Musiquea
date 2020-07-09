@@ -12,4 +12,10 @@ export class RecommendationsCardsComponent implements OnInit {
   ngOnInit() {
   }
 
+  cards = new Array(8);
+
+  cardContentAttributes: Object = {
+    color: 'gray'
+  };
+
 }

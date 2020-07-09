@@ -38,45 +38,23 @@ h1 a {
   box-shadow: 1px 2px 7px #272727;
 }
 
-#formMonth {
-  color: whitesmoke;
-  font-family: 'Roboto', sans-serif;
-  margin: 1em 0em 0em 0em;
-}
-
-#formMonth label {
-  color: #272727;
-  font-family: 'Roboto', sans-serif;
-  font-size: 14px;
-}
-
 #formMonth select {
   text-align: left;
   border: 1px solid gray;
   border-radius: 3px;
-  padding: 0.1em;
-  width: 14em;
+  box-shadow: 1px 2px 7px #272727;
+  margin-top: 1em;
 }
 
-#formMonth select, #formMonth select option {
+#formMonth select, #formMonth option {
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
   color: #272727;
   border: none;
 }
 
-#formMonth select option:hover, #formMonth select option:checked {
+#formMonth select:hover {
   color: whitesmoke;
   background-color: #272727;
   border: none;
-}
-
-.bg {
-  background-color: darkred;
-}
-
-.whiteSpace {
-  color: white;
-  padding-bottom: 10em;
-  margin-top: 0px;
 }

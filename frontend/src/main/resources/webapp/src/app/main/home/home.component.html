@@ -9,15 +9,13 @@
         <input type="search" name="search" id="inputSearch" (keydown.enter)="onSubmit(myform)" placeholder="Buscar...">
       </div>
       <div id="formMonth">
-        <label for="month">Mes: </label>
+        <label for="month"></label>
         <select name="month" id="month">
-          <option selected disabled>Selecciona un mes...</option>
         </select>
       </div>
     </form>
   </div>
 </header>
-<p class="whiteSpace">MUSIQUEA</p>
 <div fxLayout="row" layout-padding fxLayoutAlign="center center">
   <router-outlet></router-outlet>
 </div>
