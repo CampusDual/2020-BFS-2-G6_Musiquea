@@ -222,6 +222,7 @@ public class ConcertsService implements IConcertsService {
 		try {
 			Map<String, Object> filter = (Map<String, Object>) req.get("filter");
 			String name = new StringBuilder("%").append(filter.get("CONCERT_NAME")).append("%").toString().replace(" ","%");
+			String artist = new StringBuilder("%").append(filter.get("ARTIST_NAME")).append("%").toString().replace(" ","%");
 			
 			String date = filter.get("CONCERT_DATE").toString();
 			String[] date_parts = date.split("/");
@@ -230,7 +231,10 @@ public class ConcertsService implements IConcertsService {
 
 			Map<String, Object> key = new HashMap<String, Object>();
 			key.put(SQLStatementBuilder.ExtendedSQLConditionValuesProcessor.EXPRESSION_KEY, new BasicExpression(
-					searchConcertByName(ConcertsDao.ATTR_CONCERT_NAME, name),
+					new BasicExpression(
+						searchConcertByName(ConcertsDao.ATTR_CONCERT_NAME, name),
+						BasicOperator.OR_OP,
+						searchConcertByArtist(ArtistsDao.ATTR_ARTIST_NAME, artist)),
 					BasicOperator.AND_OP,
 					searchConcertByMonth(ConcertsDao.ATTR_CONCERT_DATE, start_date, end_date)));
 			
@@ -250,6 +254,12 @@ public class ConcertsService implements IConcertsService {
 		BasicField fieldName = new BasicField(concertName);
 		BasicExpression concertSearchedByName = new BasicExpression(fieldName, BasicOperator.LIKE_OP, name);
 		return concertSearchedByName;
+	}
+	
+	private BasicExpression searchConcertByArtist(String artistName, String artist) {
+		BasicField fieldArtist = new BasicField(artistName);
+		BasicExpression concertSearchedByArtist = new BasicExpression(fieldArtist, BasicOperator.LIKE_OP, artist);
+		return concertSearchedByArtist;
 	}
 
 	private BasicExpression searchConcertByMonth(String concertDate, Date start_date, Date end_date) {
