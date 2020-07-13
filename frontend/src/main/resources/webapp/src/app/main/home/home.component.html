@@ -1,5 +1,22 @@
+<header>
+  <div id="title_musiquea" fxLayout="row" layout-padding fxLayoutAlign="center center">
+    <h1><a routerLink="recommendations" (click)="goHome()">MUSIQUEA</a></h1>
+  </div>
+  <div id="div_search" fxLayout="row" layout-padding fxLayoutAlign="center center">
+    <form #myform="ngForm">
+      <div id="formSearch">
+        <label for="inputSearch"></label>
+        <input type="search" name="search" id="inputSearch" (keydown.enter)="onSubmit(myform)" placeholder="Buscar...">
+      </div>
+      <div id="formMonth">
+        <label for="month"></label>
+        <select name="month" id="month">
+        </select>
+      </div>
+    </form>
+  </div>
+</header>
+<p class="whiteSpace">MUSIQUEA</p>
 <div fxLayout="row" layout-padding fxLayoutAlign="center center">
-  <p>
-    Ontimize web seed application home component
-  </p>
+  <router-outlet></router-outlet>
 </div>
