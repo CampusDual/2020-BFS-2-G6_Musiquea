@@ -1,0 +1,18 @@
+<div id="results">
+  <h3>Resultados para 'Rosalia'</h3>
+  <hr>
+  <section class="cards" >
+    
+    <article class="card" routerLink="concert-details"
+             *ngFor="let card of cards">
+             {{ card }}
+      <img class="img_card"
+        src="https://www.lacomarcadepuertollano.com/diario/fotos/2019_12_28/2019_12_28_No_01-rosalia.jpg"
+        alt="Foto del artista" />
+      <p class="name_artist">ROSALIA</p>
+      <p class="location_concert">Las ventas, Madrid</p>
+      <p class="date_concert">09/07/2020</p>
+    </article>
+ 
+  </section>
+</div>

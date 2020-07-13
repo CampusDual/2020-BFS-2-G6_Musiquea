@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
-import { OntimizeWebModule } from 'ontimize-web-ngx';
-import { SharedModule } from '../../shared/shared.module';
-import { HomeComponent } from './home.component';
+import { CommonModule } from '@angular/common';
+
 import { HomeRoutingModule } from './home-routing.module';
+import { OntimizeWebModule } from 'ontimize-web-ngx';
+import { HomeComponent } from './home.component';
 
 @NgModule({
   imports: [
-    SharedModule,
+    CommonModule,
     OntimizeWebModule,
     HomeRoutingModule
   ],
