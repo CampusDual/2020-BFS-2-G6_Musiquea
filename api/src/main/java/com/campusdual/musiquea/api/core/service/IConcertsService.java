@@ -3,6 +3,8 @@ package com.campusdual.musiquea.api.core.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.RequestBody;
+
 import com.ontimize.db.EntityResult;
 import com.ontimize.jee.common.exceptions.OntimizeJEERuntimeException;
 
@@ -19,6 +21,8 @@ public interface IConcertsService {
 	public EntityResult concertsDelete(Map<String, Object> keyMap) throws OntimizeJEERuntimeException;
 
 	public EntityResult recommendedConcertsQuery() throws OntimizeJEERuntimeException;
+	
+	public EntityResult searchedConcertQuery(Map<String, Object> req) throws OntimizeJEERuntimeException;
 
 	public EntityResult viewersQuery(Map<String, Object> keyMap, List<String> attrlist)
 			throws OntimizeJEERuntimeException;

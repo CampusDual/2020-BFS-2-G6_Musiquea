@@ -1,8 +1,11 @@
 package com.campusdual.musiquea.ws.core.rest;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,5 +32,10 @@ public class ConcertsController extends ORestController<IConcertsService> {
 
 		return this.concertsService.recommendedConcertsQuery();
 	}
-
+	
+	@RequestMapping(value = "/search", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public EntityResult getSearchedConcert(@RequestBody Map<String, Object> req) {
+		return this.concertsService.searchedConcertQuery(req);
+	}
+	
 }

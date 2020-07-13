@@ -1,13 +1,18 @@
 package com.campusdual.musiquea.model.core.service;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.expression.Operation;
+import org.springframework.expression.spel.ast.OperatorBetween;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.campusdual.musiquea.api.core.service.IConcertsService;
 import com.campusdual.musiquea.model.core.dao.ArtistsDao;
@@ -18,6 +23,12 @@ import com.campusdual.musiquea.model.core.dao.PlacesDao;
 import com.campusdual.musiquea.model.core.dao.TypesDao;
 import com.campusdual.musiquea.model.core.dao.ViewersDao;
 import com.ontimize.db.EntityResult;
+import com.ontimize.db.SQLStatementBuilder;
+import com.ontimize.db.SQLStatementBuilder.BasicExpression;
+import com.ontimize.db.SQLStatementBuilder.BasicField;
+import com.ontimize.db.SQLStatementBuilder.BasicOperator;
+import com.ontimize.db.SQLStatementBuilder.Operator;
+import com.ontimize.gui.SearchValue;
 import com.ontimize.jee.common.exceptions.OntimizeJEERuntimeException;
 import com.ontimize.jee.server.dao.DefaultOntimizeDaoHelper;
 
@@ -188,10 +199,10 @@ public class ConcertsService implements IConcertsService {
 
 	private EntityResult getRecommendedConcerts() {
 		return this.daoHelper.query(this.concertsDao, new HashMap(),
-				java.util.Arrays.asList(("C." + ConcertsDao.ATTR_CONCERT_ID),
+				java.util.Arrays.asList((ConcertsDao.ATTR_CONCERT_ID),
 						/* ConcertsDao.ATTR_CONCERT_IMAGE, */ ConcertsDao.ATTR_CONCERT_DATE, ConcertsDao.ATTR_TYPE_ID,
 						PlacesDao.ATTR_PLACE_NAME, PlacesDao.ATTR_CITY, ViewersDao.ATTR_COUNT_VIEWERS,
-						ArtistsDao.ATTR_ARTIST_NAME),
+						ArtistsDao.ATTR_ARTIST_NAME, "collaborators"),
 				"recommendedConcerts");
 	}
 
@@ -204,6 +215,58 @@ public class ConcertsService implements IConcertsService {
 		String numberRecommeded = parts2[0];
 
 		return Integer.parseInt(numberRecommeded);
+	}
+
+	@Override
+	public EntityResult searchedConcertQuery(Map<String, Object> req) throws OntimizeJEERuntimeException {
+		try {
+			Map<String, Object> filter = (Map<String, Object>) req.get("filter");
+			String name = new StringBuilder("%").append(filter.get("CONCERT_NAME")).append("%").toString().replace(" ","%");
+			String artist = new StringBuilder("%").append(filter.get("ARTIST_NAME")).append("%").toString().replace(" ","%");
+			
+			String date = filter.get("CONCERT_DATE").toString();
+			String[] date_parts = date.split("/");
+			Date start_date = new SimpleDateFormat("yyyy-MM-dd").parse(date_parts[0]);
+			Date end_date = new SimpleDateFormat("yyyy-MM-dd").parse(date_parts[1]);
+
+			Map<String, Object> key = new HashMap<String, Object>();
+			key.put(SQLStatementBuilder.ExtendedSQLConditionValuesProcessor.EXPRESSION_KEY, new BasicExpression(
+					new BasicExpression(
+						searchConcertByName(ConcertsDao.ATTR_CONCERT_NAME, name),
+						BasicOperator.OR_OP,
+						searchConcertByArtist(ArtistsDao.ATTR_ARTIST_NAME, artist)),
+					BasicOperator.AND_OP,
+					searchConcertByMonth(ConcertsDao.ATTR_CONCERT_DATE, start_date, end_date)));
+			
+			return this.daoHelper.query(this.concertsDao, key, Arrays.asList(ConcertsDao.ATTR_CONCERT_ID,
+					/* ConcertsDao.ATTR_CONCERT_IMAGE, */ConcertsDao.ATTR_CONCERT_DATE, ConcertsDao.ATTR_TYPE_ID,
+					PlacesDao.ATTR_PLACE_NAME, PlacesDao.ATTR_CITY, ArtistsDao.ATTR_ARTIST_NAME, "collaborators"),
+					"searchedConcert");
+		} catch (Exception e) {
+			e.printStackTrace();
+			EntityResult res = new EntityResult();
+			res.setCode(EntityResult.OPERATION_WRONG);
+			return res;
+		}
+	}
+
+	private BasicExpression searchConcertByName(String concertName, String name) {
+		BasicField fieldName = new BasicField(concertName);
+		BasicExpression concertSearchedByName = new BasicExpression(fieldName, BasicOperator.LIKE_OP, name);
+		return concertSearchedByName;
+	}
+	
+	private BasicExpression searchConcertByArtist(String artistName, String artist) {
+		BasicField fieldArtist = new BasicField(artistName);
+		BasicExpression concertSearchedByArtist = new BasicExpression(fieldArtist, BasicOperator.LIKE_OP, artist);
+		return concertSearchedByArtist;
+	}
+
+	private BasicExpression searchConcertByMonth(String concertDate, Date start_date, Date end_date) {
+		BasicField fieldDate = new BasicField(concertDate);
+		BasicExpression bexp1 = new BasicExpression(fieldDate, BasicOperator.MORE_EQUAL_OP, start_date);
+		BasicExpression bexp2 = new BasicExpression(fieldDate, BasicOperator.LESS_EQUAL_OP, end_date);
+		return new BasicExpression(bexp1, BasicOperator.AND_OP, bexp2);
 	}
 
 }
