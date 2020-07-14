@@ -5,9 +5,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.campusdual.musiquea.api.core.service.IConcertsService;
@@ -27,15 +27,18 @@ public class ConcertsController extends ORestController<IConcertsService> {
 		return this.concertsService;
 	}
 
-	@RequestMapping(value = "/recommendedConcerts", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/recommendedConcerts/search", produces = MediaType.APPLICATION_JSON_VALUE)
 	public EntityResult getRecommendedConcerts() {
-
 		return this.concertsService.recommendedConcertsQuery();
 	}
-	
-	@RequestMapping(value = "/search", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+
+	@PostMapping(value = "/concertDetails", produces = MediaType.APPLICATION_JSON_VALUE)
+	public EntityResult getConcertDetails(@RequestBody Map<String, Object> req) {
+		return this.concertsService.concertDetailsQuery(req);
+	}
+
+	@PostMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
 	public EntityResult getSearchedConcert(@RequestBody Map<String, Object> req) {
 		return this.concertsService.searchedConcertQuery(req);
 	}
-	
 }

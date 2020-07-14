@@ -9,10 +9,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.expression.Operation;
-import org.springframework.expression.spel.ast.OperatorBetween;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.campusdual.musiquea.api.core.service.IConcertsService;
 import com.campusdual.musiquea.model.core.dao.ArtistsDao;
@@ -27,8 +24,6 @@ import com.ontimize.db.SQLStatementBuilder;
 import com.ontimize.db.SQLStatementBuilder.BasicExpression;
 import com.ontimize.db.SQLStatementBuilder.BasicField;
 import com.ontimize.db.SQLStatementBuilder.BasicOperator;
-import com.ontimize.db.SQLStatementBuilder.Operator;
-import com.ontimize.gui.SearchValue;
 import com.ontimize.jee.common.exceptions.OntimizeJEERuntimeException;
 import com.ontimize.jee.server.dao.DefaultOntimizeDaoHelper;
 
@@ -198,16 +193,16 @@ public class ConcertsService implements IConcertsService {
 	}
 
 	private EntityResult getRecommendedConcerts() {
-		return this.daoHelper.query(this.concertsDao, new HashMap(),
-				java.util.Arrays.asList((ConcertsDao.ATTR_CONCERT_ID),
-						/* ConcertsDao.ATTR_CONCERT_IMAGE, */ ConcertsDao.ATTR_CONCERT_DATE, ConcertsDao.ATTR_TYPE_ID,
+		return this.daoHelper.query(this.concertsDao, new HashMap<String, Object>(),
+				Arrays.asList(ConcertsDao.ATTR_CONCERT_ID,
+						/* ConcertsDao.ATTR_CONCERT_IMAGE, */ConcertsDao.ATTR_CONCERT_DATE, ConcertsDao.ATTR_TYPE_ID,
 						PlacesDao.ATTR_PLACE_NAME, PlacesDao.ATTR_CITY, ViewersDao.ATTR_COUNT_VIEWERS,
 						ArtistsDao.ATTR_ARTIST_NAME, "collaborators"),
 				"recommendedConcerts");
 	}
 
 	private int getMaxConcertRecommended() {
-		EntityResult config = this.configurationsQuery(new HashMap(),
+		EntityResult config = this.configurationsQuery(new HashMap<String, Object>(),
 				Arrays.asList(ConfigurationsDao.ATTR_MAX_CONCERT_RECOMMENDATIONS));
 
 		String[] parts1 = config.get(ConfigurationsDao.ATTR_MAX_CONCERT_RECOMMENDATIONS).toString().split("\\[");
@@ -218,12 +213,58 @@ public class ConcertsService implements IConcertsService {
 	}
 
 	@Override
+	public EntityResult concertDetailsQuery(Map<String, Object> keyMap) throws OntimizeJEERuntimeException {
+		try {
+			Map<String, Object> concertIdSelected = (Map<String, Object>) keyMap.get("filter");
+			int concertId = (int) concertIdSelected.get("concert_id");
+
+			EntityResult baseQuery = this.daoHelper.query(this.concertsDao, new HashMap<String, Object>(),
+					Arrays.asList(ConcertsDao.ATTR_CONCERT_ID,
+							/* ArtistsDao.ATTR_ARTIST_IMAGE, */ArtistsDao.ATTR_ARTIST_NAME,
+							ConcertsDao.ATTR_CONCERT_NAME, ConcertsDao.ATTR_CONCERT_DATE, ConcertsDao.ATTR_CONCERT_URL,
+							/* ConcertsDao.ATTR_CONCERT_IMAGE, */ConcertsDao.ATTR_TYPE_ID, PlacesDao.ATTR_PLACE_NAME,
+							PlacesDao.ATTR_CITY, PlacesDao.ATTR_PROVINCE, "collaborators", "genres"),
+					"concertDetails");
+
+			EntityResult finalres = new EntityResult();
+			for (int i = 0; i < baseQuery.calculateRecordNumber(); i++) {
+				if (baseQuery.getRecordValues(i).get("concert_id").toString().equals(String.valueOf(concertId))) {
+					finalres.addRecord(baseQuery.getRecordValues(i));
+				}
+			}
+
+			EntityResult query = this.viewersQuery(concertIdSelected,
+					Arrays.asList(ViewersDao.ATTR_VIEWER_ID, ViewersDao.ATTR_COUNT_VIEWERS));
+
+			int viewerId = Integer.parseInt(query.getRecordValues(0).get("viewer_id").toString());
+			int currentCountViewers = Integer.parseInt(query.getRecordValues(0).get("count_viewers").toString());
+
+			Map<String, Object> attrMap = new HashMap<String, Object>();
+			attrMap.put(ViewersDao.ATTR_COUNT_VIEWERS, (currentCountViewers + 1));
+
+			Map<String, Object> keysValues = new HashMap<String, Object>();
+			keysValues.put("VIEWER_ID", viewerId);
+
+			this.viewersUpdate(attrMap, keysValues);
+
+			return finalres;
+		} catch (Exception e) {
+			e.printStackTrace();
+			EntityResult res = new EntityResult();
+			res.setCode(EntityResult.OPERATION_WRONG);
+			return res;
+		}
+	}
+
+	@Override
 	public EntityResult searchedConcertQuery(Map<String, Object> req) throws OntimizeJEERuntimeException {
 		try {
 			Map<String, Object> filter = (Map<String, Object>) req.get("filter");
-			String name = new StringBuilder("%").append(filter.get("CONCERT_NAME")).append("%").toString().replace(" ","%");
-			String artist = new StringBuilder("%").append(filter.get("ARTIST_NAME")).append("%").toString().replace(" ","%");
-			
+			String name = new StringBuilder("%").append(filter.get("CONCERT_NAME")).append("%").toString().replace(" ",
+					"%");
+			String artist = new StringBuilder("%").append(filter.get("ARTIST_NAME")).append("%").toString().replace(" ",
+					"%");
+
 			String date = filter.get("CONCERT_DATE").toString();
 			String[] date_parts = date.split("/");
 			Date start_date = new SimpleDateFormat("yyyy-MM-dd").parse(date_parts[0]);
@@ -231,13 +272,10 @@ public class ConcertsService implements IConcertsService {
 
 			Map<String, Object> key = new HashMap<String, Object>();
 			key.put(SQLStatementBuilder.ExtendedSQLConditionValuesProcessor.EXPRESSION_KEY, new BasicExpression(
-					new BasicExpression(
-						searchConcertByName(ConcertsDao.ATTR_CONCERT_NAME, name),
-						BasicOperator.OR_OP,
-						searchConcertByArtist(ArtistsDao.ATTR_ARTIST_NAME, artist)),
-					BasicOperator.AND_OP,
-					searchConcertByMonth(ConcertsDao.ATTR_CONCERT_DATE, start_date, end_date)));
-			
+					new BasicExpression(searchConcertByName(ConcertsDao.ATTR_CONCERT_NAME, name), BasicOperator.OR_OP,
+							searchConcertByArtist(ArtistsDao.ATTR_ARTIST_NAME, artist)),
+					BasicOperator.AND_OP, searchConcertByMonth(ConcertsDao.ATTR_CONCERT_DATE, start_date, end_date)));
+
 			return this.daoHelper.query(this.concertsDao, key, Arrays.asList(ConcertsDao.ATTR_CONCERT_ID,
 					/* ConcertsDao.ATTR_CONCERT_IMAGE, */ConcertsDao.ATTR_CONCERT_DATE, ConcertsDao.ATTR_TYPE_ID,
 					PlacesDao.ATTR_PLACE_NAME, PlacesDao.ATTR_CITY, ArtistsDao.ATTR_ARTIST_NAME, "collaborators"),
@@ -255,7 +293,7 @@ public class ConcertsService implements IConcertsService {
 		BasicExpression concertSearchedByName = new BasicExpression(fieldName, BasicOperator.LIKE_OP, name);
 		return concertSearchedByName;
 	}
-	
+
 	private BasicExpression searchConcertByArtist(String artistName, String artist) {
 		BasicField fieldArtist = new BasicField(artistName);
 		BasicExpression concertSearchedByArtist = new BasicExpression(fieldArtist, BasicOperator.LIKE_OP, artist);
