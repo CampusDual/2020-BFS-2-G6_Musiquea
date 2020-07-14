@@ -11,8 +11,8 @@ import com.ontimize.jee.server.dao.jdbc.OntimizeJdbcDaoSupport;
 @ConfigurationFile(configurationFile = "dao/CollaboratorConcertsDao.xml", configurationFilePlaceholder = "dao/placeholders.properties")
 public class CollaboratorsConcertsDao extends OntimizeJdbcDaoSupport {
 
- public static final String ATTR_COLLABORATOR_CONCERT_ID = "COLLABORATOR_CONCERT_ID";
- public static final String ATTR_CONCERT_ID = "CONCERT_ID";
- public static final String ATTR_COLLABORATOR_ID = "COLLABORATOR_ID";
- 
+	public static final String ATTR_COLLABORATOR_CONCERT_ID = "collaborator_concert_id";
+	public static final String ATTR_CONCERT_ID = "concert_id";
+	public static final String ATTR_COLLABORATOR_ID = "collaborator_id";
+
 }

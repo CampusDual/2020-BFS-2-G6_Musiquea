@@ -9,10 +9,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.expression.Operation;
-import org.springframework.expression.spel.ast.OperatorBetween;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.campusdual.musiquea.api.core.service.IConcertsService;
 import com.campusdual.musiquea.model.core.dao.ArtistsDao;
@@ -27,8 +24,6 @@ import com.ontimize.db.SQLStatementBuilder;
 import com.ontimize.db.SQLStatementBuilder.BasicExpression;
 import com.ontimize.db.SQLStatementBuilder.BasicField;
 import com.ontimize.db.SQLStatementBuilder.BasicOperator;
-import com.ontimize.db.SQLStatementBuilder.Operator;
-import com.ontimize.gui.SearchValue;
 import com.ontimize.jee.common.exceptions.OntimizeJEERuntimeException;
 import com.ontimize.jee.server.dao.DefaultOntimizeDaoHelper;
 

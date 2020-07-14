@@ -6,20 +6,21 @@
 	catalog="" schema="${mainschema}" table="CONCERTS"
 	datasource="mainDataSource" sqlhandler="dbSQLStatementHandler">
 	<DeleteKeys>
-		<Column>ID</Column>
+		<Column>CONCERT_ID</Column>
 	</DeleteKeys>
 	<UpdateKeys>
-		<Column>ID</Column>
+		<Column>CONCERT_ID</Column>
 	</UpdateKeys>
-	<GeneratedKey>ID</GeneratedKey>
+	<GeneratedKey>concert_id</GeneratedKey>
 	<Queries>
 		<Query id="recommendedConcerts">
 			<AmbiguousColumns>
-                <AmbiguousColumn name="concert_id" prefix="C" />
-            </AmbiguousColumns>
-            <FunctionColumns>
-                <FunctionColumn name="collaborators" value="count(collaborator_id)"/>
-            </FunctionColumns>
+				<AmbiguousColumn name="concert_id" prefix="C" />
+			</AmbiguousColumns>
+			<FunctionColumns>
+				<FunctionColumn name="collaborators"
+					value="count(collaborator_id)" />
+			</FunctionColumns>
 			<Sentence>
                 <![CDATA[
                     SELECT 
@@ -63,11 +64,12 @@
 		</Query>
 		<Query id="searchedConcert">
 			<AmbiguousColumns>
-                <AmbiguousColumn name="concert_id" prefix="C" />
-            </AmbiguousColumns>
-            <FunctionColumns>
-                <FunctionColumn name="collaborators" value="count(collaborator_id)"/>
-            </FunctionColumns>
+				<AmbiguousColumn name="concert_id" prefix="C" />
+			</AmbiguousColumns>
+			<FunctionColumns>
+				<FunctionColumn name="collaborators"
+					value="count(collaborator_id)" />
+			</FunctionColumns>
 			<Sentence>
                 <![CDATA[
                     SELECT 

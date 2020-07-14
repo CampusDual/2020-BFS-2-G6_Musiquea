@@ -11,7 +11,7 @@ import com.ontimize.jee.server.dao.jdbc.OntimizeJdbcDaoSupport;
 @ConfigurationFile(configurationFile = "dao/TypesDao.xml", configurationFilePlaceholder = "dao/placeholders.properties")
 public class TypesDao extends OntimizeJdbcDaoSupport {
 
- public static final String ATTR_TYPE_ID = "TYPE_ID";
- public static final String ATTR_TYPE_NAME = "TYPE_NAME";
- 
+	public static final String ATTR_TYPE_ID = "type_id";
+	public static final String ATTR_TYPE_NAME = "type_name";
+
 }
