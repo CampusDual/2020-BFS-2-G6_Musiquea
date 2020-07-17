@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HomeResultsRoutingModule } from './home-results-routing.module';
 import { OntimizeWebModule } from 'ontimize-web-ngx';
 import { ResultsCardsComponent } from './results-cards/results-cards.component';
+import { ResultsService } from './results-cards/results.service';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import { ResultsCardsComponent } from './results-cards/results-cards.component';
   ],
   declarations: [
     ResultsCardsComponent
-  ]
+  ],
+  providers: [ResultsService]
 })
 export class HomeResultsModule { }

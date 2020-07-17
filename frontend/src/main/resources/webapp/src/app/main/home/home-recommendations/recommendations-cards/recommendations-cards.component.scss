@@ -1,18 +1,18 @@
-#recomemded_concerts {
+#recommended_concerts {
   padding-top: 12rem;
 }
 
-#recomemded_concerts h3 {
+#recommended_concerts h3 {
   font-family: 'Roboto', sans-serif;
   color: #272727;
 }
 
-#recomemded_concerts hr {
+#recommended_concerts hr {
   width: 5em;
   border: 1px solid #F2B705;
 }
 
-#recomemded_concerts .cards {
+#recommended_concerts .cards {
   display: flex;
   flex-wrap: wrap;
   padding: 0em 10em 0em 10em;
@@ -20,7 +20,7 @@
   align-items: top;
 }
 
-#recomemded_concerts .cards .card {
+#recommended_concerts .cards .card {
   width: 18em;
   box-shadow: 2px 5px 8px gray;
   border-radius: 3px;
@@ -29,7 +29,7 @@
   margin: 1.2em;
 }
 
-#recomemded_concerts .card .img_card {
+#recommended_concerts .card .img_card {
   width: 100%;
   height: 65%;
   object-fit: cover;
@@ -37,13 +37,13 @@
   border-radius: 3px 3px 0px 0px;
 }
 
-#recomemded_concerts .card p {
+#recommended_concerts .card p {
   font-family: 'Roboto', sans-serif;
   font-size: 0.9em;
   margin: 0.2em;
 }
 
-#recomemded_concerts .card .name_artist {
+#recommended_concerts .card .name_artist {
   padding-top: 0.2em;
   font-size: 1.2em;
 }

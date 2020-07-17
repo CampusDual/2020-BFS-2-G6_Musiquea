@@ -1,17 +1,40 @@
 <header>
-  <div id="title_musiquea" fxLayout="row" layout-padding fxLayoutAlign="center center">
-    <h1><a routerLink="recommendations" (click)="goHome()">MUSIQUEA</a></h1>
+  <div
+    id="title_musiquea"
+    fxLayout="row"
+    layout-padding
+    fxLayoutAlign="center center"
+  >
+    <h1><a (click)="goHome()">MUSIQUEA</a></h1>
   </div>
-  <div id="div_search" fxLayout="row" layout-padding fxLayoutAlign="center center">
+  <div
+    id="div_search"
+    fxLayout="row"
+    layout-padding
+    fxLayoutAlign="center center"
+  >
     <form #myform="ngForm">
       <div id="formSearch">
         <label for="inputSearch"></label>
-        <input type="search" name="search" id="inputSearch" (keydown.enter)="onSubmit(myform)" placeholder="Buscar...">
+        <input
+          #searchText
+          maxlength="256"
+          placeholder="{{ 'SEARCH' | oTranslate }}"
+          type="text"
+          value=""
+          name="search"
+          id="search"
+          [(ngModel)]="search"
+          (keydown.enter)="onSubmit($event.target.value)"
+        />
       </div>
-      <div id="formMonth">
+      <div id="formMonth" [hidden]="!_router.url.includes('results')">
         <label for="month"></label>
-        <select name="month" id="month">
-        </select>
+        <select
+          name="month"
+          id="month"
+          (change)="changeMonth($event.target.value)"
+        ></select>
       </div>
     </form>
   </div>

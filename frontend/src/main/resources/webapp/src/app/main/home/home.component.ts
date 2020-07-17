@@ -1,17 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
+import { PlatformLocation } from "@angular/common";
 
 @Component({
-  selector: 'home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: "home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit {
+  @ViewChild("searchText") searchText: ElementRef;
 
+  search: string;
+  router: string;
   constructor(
-    private router: Router,
-    private actRoute: ActivatedRoute
+    private _router: Router,
+    private actRoute: ActivatedRoute,
+    private location: PlatformLocation
   ) {
+    this.router = _router.url;
+
+    location.onPopState(() => {
+      this.goHome();
+    });
   }
 
   ngOnInit() {
@@ -19,46 +29,101 @@ export class HomeComponent implements OnInit {
   }
 
   navigate() {
-    this.router.navigate(['../', 'login'], { relativeTo: this.actRoute });
+    this._router.navigate(["../", "login"], { relativeTo: this.actRoute });
   }
 
   goHome() {
+    this._router.navigate(["../home/recommendations"], {
+      relativeTo: this.actRoute,
+    });
     let div = document.getElementById("formMonth");
     div.style.display = "none";
+    this.search = "";
   }
 
-  onSubmit(form) {
-    this.router.navigate(['../home/results'], { relativeTo: this.actRoute });
-    let div = document.getElementById("formMonth");
-    div.style.display = "block";
-    this.getNextMonths();
+  changeMonth($event) {
+    let searchValue = this.searchText.nativeElement.value;
+    this._router.navigate(["../home/results/" + searchValue + "/" + $event], {
+      relativeTo: this.actRoute,
+    });
+  }
+
+  onSubmit($event) {
+    if ($event == "") {
+      this.goHome();
+    } else {
+      this._router.navigate(["../home/results/" + $event], {
+        relativeTo: this.actRoute,
+      });
+      let month = document.getElementById("formMonth");
+      month.style.display = "block";
+      this.getNextMonths();
+    }
   }
 
   getNextMonths() {
     let select = document.getElementById("month");
+
+    while (select.firstChild) {
+      select.removeChild(select.firstChild);
+    }
+
     let currentDate = new Date();
-    let currentMonth = (currentDate.getUTCMonth() + 1);
+    let currentMonth = currentDate.getUTCMonth() + 1;
     let month = currentMonth;
     let firstOption = true;
 
     if (firstOption) {
-      let option = document.createElement('option');
+      let option = document.createElement("option");
       let year = currentDate.getUTCFullYear();
       let day;
 
       if (currentDate.getUTCDate() >= 1 && currentDate.getUTCDate() <= 9) {
-        day = "-0" + (currentDate.getUTCDate());
+        day = "0" + currentDate.getUTCDate();
+      } else {
+        day = "" + currentDate.getUTCDate();
       }
 
       if (month == 12) {
-        option.value = year + "-" + month + day + (year + 1) + "-01-01";
+        option.value =
+          year + "-" + month + "-" + day + "_" + (year + 1) + "-01-01";
       } else {
-        if (month >= 1 && month <= 9 && (month + 1) != 10) {
-          option.value = year + "-0" + month + day + "/" + year + "-0" + (month + 1) + "-01";
-        } else if (month >= 1 && month <= 9 && (month + 1) == 10) {
-          option.value = year + "-0" + month + day + "/" + year + "-" + (month + 1) + "-01";
+        if (month >= 1 && month <= 9 && month + 1 != 10) {
+          option.value =
+            year +
+            "-0" +
+            month +
+            "-" +
+            day +
+            "_" +
+            year +
+            "-0" +
+            (month + 1) +
+            "-01";
+        } else if (month >= 1 && month <= 9 && month + 1 == 10) {
+          option.value =
+            year +
+            "-0" +
+            month +
+            "-" +
+            day +
+            "_" +
+            year +
+            "-" +
+            (month + 1) +
+            "-01";
         } else {
-          option.value = year + "-" + month + day + "/" + year + "-" + (month + 1) + "-01";
+          option.value =
+            year +
+            "-" +
+            month +
+            "-" +
+            day +
+            "_" +
+            year +
+            "-" +
+            (month + 1) +
+            "-01";
         }
       }
       option.innerHTML = this.getMonthName(month);
@@ -67,10 +132,10 @@ export class HomeComponent implements OnInit {
     }
 
     do {
-      let option = document.createElement('option');
+      let option = document.createElement("option");
       let year = currentDate.getUTCFullYear();
       if (month == 12) {
-        option.value = year + "-" + month + "-01/" + (year + 1) + "-01-01";
+        option.value = year + "-" + month + "-01_" + (year + 1) + "-01-01";
       } else {
         option.value = this.getOptionValue(month, year);
       }
@@ -82,7 +147,7 @@ export class HomeComponent implements OnInit {
     month = 1;
 
     do {
-      let option = document.createElement('option');
+      let option = document.createElement("option");
       let year = currentDate.getUTCFullYear() + 1;
       option.value = this.getOptionValue(month, year);
       option.innerHTML = this.getMonthName(month);
@@ -93,12 +158,12 @@ export class HomeComponent implements OnInit {
 
   getOptionValue(month, year) {
     let value;
-    if (month >= 1 && month <= 9 && (month + 1) != 10) {
-      value = year + "-0" + month + "-01/" + year + "-0" + (month + 1) + "-01";
-    } else if (month >= 1 && month <= 9 && (month + 1) == 10) {
-      value = year + "-0" + month + "-01/" + year + "-" + (month + 1) + "-01";
+    if (month >= 1 && month <= 9 && month + 1 != 10) {
+      value = year + "-0" + month + "-01_" + year + "-0" + (month + 1) + "-01";
+    } else if (month >= 1 && month <= 9 && month + 1 == 10) {
+      value = year + "-0" + month + "-01_" + year + "-" + (month + 1) + "-01";
     } else {
-      value = year + "-" + month + "-01/" + year + "-" + (month + 1) + "-01";
+      value = year + "-" + month + "-01_" + year + "-" + (month + 1) + "-01";
     }
     return value;
   }

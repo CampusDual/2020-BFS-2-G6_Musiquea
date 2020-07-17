@@ -1,12 +1,53 @@
-<div id="recomemded_concerts">
-	<h3>Nuestras recomendaciones para ti</h3>
-	<hr>
-	<o-card-menu-layout parent-menu-id="views" class="cards">
-		<o-card-menu-item class="card" routerLink="concert-details" title="Rosalía" tooltip="Las ventas, Madrid - 09/07/2020" image="https://www.lacomarcadepuertollano.com/diario/fotos/2019_12_28/2019_12_28_No_01-rosalia.jpg">
-		</o-card-menu-item>
-		<o-card-menu-item class="card" routerLink="concert-details" title="Melendi" tooltip="Las ventas, Madrid - 09/07/2020" image="https://cdn.smehost.net/ww2melendioficialcom-prosolutionsprod/wp-content/uploads/2019/10/melendi-bio-20191031-1024x525.jpg">
-		</o-card-menu-item>
-		<o-card-menu-item class="card" routerLink="concert-details" title="Andrés Suárez" tooltip="Las ventas, Madrid - 09/07/2020" image="https://www.elprogreso.es/media/elprogreso/images/2019/10/17/2019101714172888840.jpg" [detail-component]="" [detail-component-inputs]="cardContentAttributes">
-		</o-card-menu-item>
-	</o-card-menu-layout>
+<div id="recommended_concerts">
+  <h3>Nuestras recomendaciones para ti</h3>
+  <hr />
+  <o-form
+    editable-detail="no"
+    show-header="no"
+    layout-align="start stretch"
+    class="employees-filters-form"
+    fxFill
+  >
+    <o-grid
+      #grid
+      attr="concerts"
+      service="concerts"
+      entity="recommendedConcerts"
+      keys="concert_id"
+    >
+      <o-grid-item *ngFor="let item of grid.dataArray">
+        <div
+          (click)="openDetail()"
+          fxLayout="column"
+          fxLayoutAlign="space-evenly center"
+          class="employee-item mat-elevation-z1"
+        >
+          <div
+            fxLayout="row"
+            fxLayoutAlign="space-between end"
+            class="image-container"
+          >
+            <mat-divider fxFlex></mat-divider>
+            <div class="image">
+              <img src="data:image/jpeg;base64,{{ item.concert_image }}" />
+            </div>
+            <mat-divider fxFlex></mat-divider>
+          </div>
+
+          <div
+            fxLayout="column"
+            fxLayoutAlign="start center"
+            class="employee-data"
+          >
+            <span class="employee-name">
+              {{ item.artist_name }} {{ item.collaborators }}
+            </span>
+            <span>
+              {{ item.concert_date }}
+            </span>
+          </div>
+        </div>
+      </o-grid-item>
+    </o-grid>
+  </o-form>
 </div>

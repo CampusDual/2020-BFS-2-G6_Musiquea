@@ -1,18 +1,33 @@
-<div id="results">
-  <h3>Resultados para 'Rosalia'</h3>
-  <hr>
-  <section class="cards" >
-    
-    <article class="card" routerLink="concert-details"
-             *ngFor="let card of cards">
-             {{ card }}
-      <img class="img_card"
-        src="https://www.lacomarcadepuertollano.com/diario/fotos/2019_12_28/2019_12_28_No_01-rosalia.jpg"
-        alt="Foto del artista" />
-      <p class="name_artist">ROSALIA</p>
-      <p class="location_concert">Las ventas, Madrid</p>
-      <p class="date_concert">09/07/2020</p>
-    </article>
- 
-  </section>
+<div id="results" *ngIf="getResults()">
+  <h3>Resultados para '{{ searchText }}'</h3>
+  <hr />
+  <div
+    (click)="openDetail()"
+    fxLayout="column"
+    fxLayoutAlign="space-evenly center"
+    class="employee-item mat-elevation-z1"
+    *ngFor="let item of getResults()"
+  >
+    <div
+      fxLayout="row"
+      fxLayoutAlign="space-between end"
+      class="image-container"
+    >
+      <mat-divider fxFlex></mat-divider>
+      <div class="image">
+        <img src="data:image/jpeg;base64,{{ item.concert_image }}" />
+      </div>
+      <mat-divider fxFlex></mat-divider>
+    </div>
+
+    <div fxLayout="column" fxLayoutAlign="start center" class="employee-data">
+      <p class="name_artist">{{ item.artist_name }}</p>
+      <p class="location_concert">{{ item.place_name }}, {{ item.city }}</p>
+      <p class="date_concert">{{ item.concert_date }}</p>
+    </div>
+  </div>
+</div>
+<div id="results" *ngIf="!getResults()">
+  <h3>No hay resultados para '{{ searchText }}'</h3>
+  <hr />
 </div>

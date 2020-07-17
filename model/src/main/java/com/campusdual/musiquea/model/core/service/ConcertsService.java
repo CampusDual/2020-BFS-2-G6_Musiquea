@@ -194,10 +194,10 @@ public class ConcertsService implements IConcertsService {
 
 	private EntityResult getRecommendedConcerts() {
 		return this.daoHelper.query(this.concertsDao, new HashMap<String, Object>(),
-				Arrays.asList(ConcertsDao.ATTR_CONCERT_ID,
-						/* ConcertsDao.ATTR_CONCERT_IMAGE, */ConcertsDao.ATTR_CONCERT_DATE, ConcertsDao.ATTR_TYPE_ID,
-						PlacesDao.ATTR_PLACE_NAME, PlacesDao.ATTR_CITY, ViewersDao.ATTR_COUNT_VIEWERS,
-						ArtistsDao.ATTR_ARTIST_NAME, "collaborators"),
+				Arrays.asList(ConcertsDao.ATTR_CONCERT_ID, ConcertsDao.ATTR_CONCERT_IMAGE,
+						ConcertsDao.ATTR_CONCERT_DATE, ConcertsDao.ATTR_TYPE_ID, PlacesDao.ATTR_PLACE_NAME,
+						PlacesDao.ATTR_CITY, ViewersDao.ATTR_COUNT_VIEWERS, ArtistsDao.ATTR_ARTIST_NAME,
+						"collaborators"),
 				"recommendedConcerts");
 	}
 
@@ -219,11 +219,11 @@ public class ConcertsService implements IConcertsService {
 			int concertId = (int) concertIdSelected.get("concert_id");
 
 			EntityResult baseQuery = this.daoHelper.query(this.concertsDao, new HashMap<String, Object>(),
-					Arrays.asList(ConcertsDao.ATTR_CONCERT_ID,
-							/* ArtistsDao.ATTR_ARTIST_IMAGE, */ArtistsDao.ATTR_ARTIST_NAME,
-							ConcertsDao.ATTR_CONCERT_NAME, ConcertsDao.ATTR_CONCERT_DATE, ConcertsDao.ATTR_CONCERT_URL,
-							/* ConcertsDao.ATTR_CONCERT_IMAGE, */ConcertsDao.ATTR_TYPE_ID, PlacesDao.ATTR_PLACE_NAME,
-							PlacesDao.ATTR_CITY, PlacesDao.ATTR_PROVINCE, "collaborators", "genres"),
+					Arrays.asList(ConcertsDao.ATTR_CONCERT_ID, ArtistsDao.ATTR_ARTIST_IMAGE,
+							ArtistsDao.ATTR_ARTIST_NAME, ConcertsDao.ATTR_CONCERT_NAME, ConcertsDao.ATTR_CONCERT_DATE,
+							ConcertsDao.ATTR_CONCERT_URL, ConcertsDao.ATTR_CONCERT_IMAGE, ConcertsDao.ATTR_TYPE_ID,
+							PlacesDao.ATTR_PLACE_NAME, PlacesDao.ATTR_CITY, PlacesDao.ATTR_PROVINCE, "collaborators",
+							"genres"),
 					"concertDetails");
 
 			EntityResult finalres = new EntityResult();
@@ -266,7 +266,7 @@ public class ConcertsService implements IConcertsService {
 					"%");
 
 			String date = filter.get("CONCERT_DATE").toString();
-			String[] date_parts = date.split("/");
+			String[] date_parts = date.split("_");
 			Date start_date = new SimpleDateFormat("yyyy-MM-dd").parse(date_parts[0]);
 			Date end_date = new SimpleDateFormat("yyyy-MM-dd").parse(date_parts[1]);
 
@@ -276,9 +276,10 @@ public class ConcertsService implements IConcertsService {
 							searchConcertByArtist(ArtistsDao.ATTR_ARTIST_NAME, artist)),
 					BasicOperator.AND_OP, searchConcertByMonth(ConcertsDao.ATTR_CONCERT_DATE, start_date, end_date)));
 
-			return this.daoHelper.query(this.concertsDao, key, Arrays.asList(ConcertsDao.ATTR_CONCERT_ID,
-					/* ConcertsDao.ATTR_CONCERT_IMAGE, */ConcertsDao.ATTR_CONCERT_DATE, ConcertsDao.ATTR_TYPE_ID,
-					PlacesDao.ATTR_PLACE_NAME, PlacesDao.ATTR_CITY, ArtistsDao.ATTR_ARTIST_NAME, "collaborators"),
+			return this.daoHelper.query(this.concertsDao, key,
+					Arrays.asList(ConcertsDao.ATTR_CONCERT_ID, ConcertsDao.ATTR_CONCERT_IMAGE,
+							ConcertsDao.ATTR_CONCERT_DATE, ConcertsDao.ATTR_TYPE_ID, PlacesDao.ATTR_PLACE_NAME,
+							PlacesDao.ATTR_CITY, ArtistsDao.ATTR_ARTIST_NAME, "collaborators"),
 					"searchedConcert");
 		} catch (Exception e) {
 			e.printStackTrace();

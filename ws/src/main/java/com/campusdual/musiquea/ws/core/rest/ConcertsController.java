@@ -32,7 +32,7 @@ public class ConcertsController extends ORestController<IConcertsService> {
 		return this.concertsService.recommendedConcertsQuery();
 	}
 
-	@PostMapping(value = "/concertDetails", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/details/search", produces = MediaType.APPLICATION_JSON_VALUE)
 	public EntityResult getConcertDetails(@RequestBody Map<String, Object> req) {
 		return this.concertsService.concertDetailsQuery(req);
 	}
