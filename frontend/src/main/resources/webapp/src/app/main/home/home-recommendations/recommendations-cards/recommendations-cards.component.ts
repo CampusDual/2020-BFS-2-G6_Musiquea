@@ -1,21 +1,44 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-recommendations-cards',
-  templateUrl: './recommendations-cards.component.html',
-  styleUrls: ['./recommendations-cards.component.scss']
+	selector: 'app-recommendations-cards',
+	templateUrl: './recommendations-cards.component.html',
+	styleUrls: ['./recommendations-cards.component.scss']
 })
+
 export class RecommendationsCardsComponent implements OnInit {
 
-  constructor() { }
+	constructor(
+		private router: Router,
+		private actRoute: ActivatedRoute) {
+	}
 
-  ngOnInit() {
-  }
+	ngOnInit() {
+	}
 
-  cards = new Array(8);
+	public openDetail() {
+		this.router.navigate(['../../../../concerts'], { relativeTo: this.actRoute });
+	}
+	
+	public getCollaborators(collaborators: any) {
+		if (collaborators == 0) {
+			return "";
+		} else {
+			return " +";
+		}
+	}
+	
+	public getPlace(place_name: string, city: string) {
+		if (place_name == null && city == null) {
+			return "Concierto online";
+		} else {
+			return place_name + ", " + city;
+		}
+	}
 
-  cardContentAttributes: Object = {
-    color: 'gray'
-  };
+	public getDate(concert_date: Date) {
+		return new Date(concert_date).toLocaleString();
+	}
 
 }

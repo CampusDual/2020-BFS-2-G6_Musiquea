@@ -33,10 +33,6 @@ const routes: Routes = [
       {
         path: 'results',
         loadChildren: loadHomeResultsModule
-      },
-      {
-        path: 'concert-details',
-        loadChildren: loadConcertsDetailsModule
       }
     ]
   }

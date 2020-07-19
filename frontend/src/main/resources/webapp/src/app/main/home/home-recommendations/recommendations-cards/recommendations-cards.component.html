@@ -1,12 +1,14 @@
-<div id="recomemded_concerts">
+<div id="recommended_concerts">
 	<h3>Nuestras recomendaciones para ti</h3>
 	<hr>
-	<o-card-menu-layout parent-menu-id="views" class="cards">
-		<o-card-menu-item class="card" routerLink="concert-details" title="Rosalía" tooltip="Las ventas, Madrid - 09/07/2020" image="https://www.lacomarcadepuertollano.com/diario/fotos/2019_12_28/2019_12_28_No_01-rosalia.jpg">
-		</o-card-menu-item>
-		<o-card-menu-item class="card" routerLink="concert-details" title="Melendi" tooltip="Las ventas, Madrid - 09/07/2020" image="https://cdn.smehost.net/ww2melendioficialcom-prosolutionsprod/wp-content/uploads/2019/10/melendi-bio-20191031-1024x525.jpg">
-		</o-card-menu-item>
-		<o-card-menu-item class="card" routerLink="concert-details" title="Andrés Suárez" tooltip="Las ventas, Madrid - 09/07/2020" image="https://www.elprogreso.es/media/elprogreso/images/2019/10/17/2019101714172888840.jpg" [detail-component]="" [detail-component-inputs]="cardContentAttributes">
-		</o-card-menu-item>
-	</o-card-menu-layout>
+	<o-grid #grid class="container-grid" attr="concerts" service="concerts" entity="recommendedConcerts" [cols]="4" show-page-size="true" page-size-options="8" orderable="yes" quick-filter="no" fixed-header="no" controls="no" detail-mode="none" gutter-size="1px">
+		<o-grid-item *ngFor="let item of grid.dataArray" class="card-item">
+			<o-column layout-padding class="container-item" (click)="openDetail()">
+				<img src="data:image/jpeg;base64,{{ item.concert_image }}" alt="Cartel del concierto"/>
+				<p class="name">{{ item.artist_name }} {{ getCollaborators(item.collaborators) }}</p>
+				<p class="location">{{ getPlace(item.place_name, item.city) }}</p>
+				<p class="date">{{ getDate(item.concert_date) }}</p>
+			</o-column>
+		</o-grid-item>
+	</o-grid>
 </div>
