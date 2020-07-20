@@ -12,12 +12,11 @@ export class ResultsCardsComponent implements OnInit {
   @ViewChild("searchValue") searchValue: ElementRef;
 
   results: IResultsModel;
-
   searchText: string;
   monthText: string;
 
   constructor(
-		private router: Router,
+    private router: Router,
     private _route: ActivatedRoute,
     private resultsService: ResultsService
   ) {}
