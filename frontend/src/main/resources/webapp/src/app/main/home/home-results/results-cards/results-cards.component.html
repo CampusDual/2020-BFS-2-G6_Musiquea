@@ -1,18 +1,21 @@
-<div id="results">
-  <h3>Resultados para 'Rosalia'</h3>
-  <hr>
-  <section class="cards" >
-    
-    <article class="card" routerLink="concert-details"
-             *ngFor="let card of cards">
-             {{ card }}
-      <img class="img_card"
-        src="https://www.lacomarcadepuertollano.com/diario/fotos/2019_12_28/2019_12_28_No_01-rosalia.jpg"
-        alt="Foto del artista" />
-      <p class="name_artist">ROSALIA</p>
-      <p class="location_concert">Las ventas, Madrid</p>
-      <p class="date_concert">09/07/2020</p>
-    </article>
- 
-  </section>
+<div id="results" *ngIf="getResults()">
+  <h3>Resultados para '{{ searchText }}'</h3>
+  <hr />
+  <o-grid #grid class="container-grid" [cols]="4" show-page-size="true" page-size-options="8" orderable="yes"
+    quick-filter="no" fixed-header="no" controls="no" detail-mode="none" gutter-size="1px">
+    <o-grid-item *ngFor="let item of getResults()" class="card-item">
+      <o-column layout-padding class="container-item" (click)="openDetail()">
+        <img src="data:image/jpeg;base64,{{ item.concert_image }}" alt="Cartel del concierto" />
+        <p class="name">
+          {{ item.artist_name }} {{ getCollaborators(item.collaborators) }}
+        </p>
+        <p class="location">{{ getPlace(item.place_name, item.city) }}</p>
+        <p class="date">{{ getDate(item.concert_date) }}</p>
+      </o-column>
+    </o-grid-item>
+  </o-grid>
+</div>
+<div id="results" *ngIf="!getResults()">
+  <h3>No hay resultados para '{{ searchText }}'</h3>
+  <hr />
 </div>

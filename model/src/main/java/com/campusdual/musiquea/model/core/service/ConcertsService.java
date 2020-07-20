@@ -266,7 +266,7 @@ public class ConcertsService implements IConcertsService {
 					"%");
 
 			String date = filter.get("CONCERT_DATE").toString();
-			String[] date_parts = date.split("/");
+			String[] date_parts = date.split("_");
 			Date start_date = new SimpleDateFormat("yyyy-MM-dd").parse(date_parts[0]);
 			Date end_date = new SimpleDateFormat("yyyy-MM-dd").parse(date_parts[1]);
 

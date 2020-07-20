@@ -14,5 +14,6 @@
   "ERROR_USER_REQUIRED": "Nombre de usuario incorrecto.",
   "ERROR_PASS_REQUIRED": "Contraseña incorrecta.",
   "ERROR_USER_PASS_INCORRECT": "Usuario o contraseña incorrecta.",
-  "MONTH": "Mes"
+  "MONTH": "Mes",
+  "SEARCH": "Buscar"
 }
