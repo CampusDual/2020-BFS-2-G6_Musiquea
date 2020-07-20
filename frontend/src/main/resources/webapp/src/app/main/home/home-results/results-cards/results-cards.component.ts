@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
-import { ActivatedRoute, ParamMap } from "@angular/router";
+import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { ResultsService } from "./results.service";
 import { IResultsModel } from "./results.model";
 
@@ -11,12 +11,13 @@ import { IResultsModel } from "./results.model";
 export class ResultsCardsComponent implements OnInit {
   @ViewChild("searchValue") searchValue: ElementRef;
 
-  private results: IResultsModel;
+  results: IResultsModel;
 
-  public searchText: string;
-  public monthText: string;
+  searchText: string;
+  monthText: string;
 
   constructor(
+		private router: Router,
     private _route: ActivatedRoute,
     private resultsService: ResultsService
   ) {}
@@ -48,5 +49,31 @@ export class ResultsCardsComponent implements OnInit {
 
   getResults() {
     return this.results;
+  }
+
+  public openDetail() {
+    this.router.navigate(["../../../../../concerts"], {
+      relativeTo: this._route,
+    });
+  }
+
+  public getCollaborators(collaborators: any) {
+    if (collaborators == 0) {
+      return "";
+    } else {
+      return " +";
+    }
+  }
+
+  public getPlace(place_name: string, city: string) {
+    if (place_name == null && city == null) {
+      return "Concierto online";
+    } else {
+      return place_name + ", " + city;
+    }
+  }
+
+  public getDate(concert_date: Date) {
+    return new Date(concert_date).toLocaleString();
   }
 }

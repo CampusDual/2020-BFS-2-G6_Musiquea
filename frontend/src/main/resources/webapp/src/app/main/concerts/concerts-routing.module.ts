@@ -5,7 +5,7 @@ import { ConcertsDetailsComponent } from './concerts-details/concerts-details.co
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':concert_id',
     component: ConcertsDetailsComponent
   }];
 

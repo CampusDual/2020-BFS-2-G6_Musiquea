@@ -19,17 +19,13 @@ export class HomeComponent implements OnInit {
   ) {
     this.router = _router.url;
 
-    location.onPopState(() => {
+    this.location.onPopState(() => {
       this.goHome();
     });
   }
 
   ngOnInit() {
     document.getElementById("formMonth").style.display = "none";
-  }
-
-  navigate() {
-    this._router.navigate(["../", "login"], { relativeTo: this.actRoute });
   }
 
   goHome() {
