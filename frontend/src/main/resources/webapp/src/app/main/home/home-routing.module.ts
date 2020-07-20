@@ -41,10 +41,6 @@ const routes: Routes = [
       {
         path: 'results/:search/:month',
         loadChildren: loadHomeResultsModule
-      },
-      {
-        path: 'concert-details',
-        loadChildren: loadConcertsDetailsModule
       }
     ]
   }

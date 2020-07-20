@@ -1,53 +1,34 @@
 <div id="recommended_concerts">
   <h3>Nuestras recomendaciones para ti</h3>
   <hr />
-  <o-form
-    editable-detail="no"
-    show-header="no"
-    layout-align="start stretch"
-    class="employees-filters-form"
-    fxFill
+  <o-grid
+    #grid
+    class="container-grid"
+    attr="concerts"
+    service="concerts"
+    entity="recommendedConcerts"
+    [cols]="4"
+    show-page-size="true"
+    page-size-options="8"
+    orderable="yes"
+    quick-filter="no"
+    fixed-header="no"
+    controls="no"
+    detail-mode="none"
+    gutter-size="1px"
   >
-    <o-grid
-      #grid
-      attr="concerts"
-      service="concerts"
-      entity="recommendedConcerts"
-      keys="concert_id"
-    >
-      <o-grid-item *ngFor="let item of grid.dataArray">
-        <div
-          (click)="openDetail()"
-          fxLayout="column"
-          fxLayoutAlign="space-evenly center"
-          class="employee-item mat-elevation-z1"
-        >
-          <div
-            fxLayout="row"
-            fxLayoutAlign="space-between end"
-            class="image-container"
-          >
-            <mat-divider fxFlex></mat-divider>
-            <div class="image">
-              <img src="data:image/jpeg;base64,{{ item.concert_image }}" />
-            </div>
-            <mat-divider fxFlex></mat-divider>
-          </div>
-
-          <div
-            fxLayout="column"
-            fxLayoutAlign="start center"
-            class="employee-data"
-          >
-            <span class="employee-name">
-              {{ item.artist_name }} {{ item.collaborators }}
-            </span>
-            <span>
-              {{ item.concert_date }}
-            </span>
-          </div>
-        </div>
-      </o-grid-item>
-    </o-grid>
-  </o-form>
+    <o-grid-item *ngFor="let item of grid.dataArray" class="card-item">
+      <o-column layout-padding class="container-item" (click)="openDetail()">
+        <img
+          src="data:image/jpeg;base64,{{ item.concert_image }}"
+          alt="Cartel del concierto"
+        />
+        <p class="name">
+          {{ item.artist_name }} {{ getCollaborators(item.collaborators) }}
+        </p>
+        <p class="location">{{ getPlace(item.place_name, item.city) }}</p>
+        <p class="date">{{ getDate(item.concert_date) }}</p>
+      </o-column>
+    </o-grid-item>
+  </o-grid>
 </div>
