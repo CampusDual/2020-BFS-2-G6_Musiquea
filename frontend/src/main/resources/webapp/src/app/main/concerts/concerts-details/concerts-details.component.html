@@ -1,6 +1,5 @@
   <div class="header_details" fxLayout="row" layout-padding fxLayoutAlign="center center">
-    <img id="logoMusiquea" src="../../../../assets/images/logoMusiqueaBlackShadows.png" (click)="goHome()" />
-
+    <img class="logoMusiquea" src="../../../../assets/images/logoMusiqueaBlackShadows.png" (click)="goHome()" />
     <form>
       <div #formSearch class="formSearch">
         <label for="search"></label>
@@ -36,7 +35,7 @@
         <p class="artist_genre">{{ det.genres }}</p>
       </div>
       <div *ngIf="getCollaborators(det.collaborators)">
-        <p class="collaboratorsTitle">Artistas invitados</p>
+        <p class="collaboratorsTitle">Artistas invitados:</p>
         <p>{{ det.collaborators }}</p>
       </div>
       <form class="formTickets">

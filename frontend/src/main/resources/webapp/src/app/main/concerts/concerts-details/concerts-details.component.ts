@@ -13,7 +13,6 @@ export class ConcertsDetailsComponent implements OnInit {
 
   det: IConcertsModel;
 
-  collaborator: any;
   concertId: number;
   constructor(
     private router: Router,
@@ -73,7 +72,6 @@ export class ConcertsDetailsComponent implements OnInit {
 
   public getCollaborators(collaborators: string) {
     if (collaborators != null) {
-      this.collaborator = new Array(collaborators.split(", "));
       return true;
     } else {
       return false;
