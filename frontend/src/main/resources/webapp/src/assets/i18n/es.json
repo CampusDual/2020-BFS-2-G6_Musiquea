@@ -15,5 +15,7 @@
   "ERROR_PASS_REQUIRED": "Contraseña incorrecta.",
   "ERROR_USER_PASS_INCORRECT": "Usuario o contraseña incorrecta.",
   "MONTH": "Mes",
-  "SEARCH": "Buscar"
+  "SEARCH": "Buscar concierto...",
+  "TICKETS": "Comprar entradas",
+  "STREAMING": "Ver en streaming"
 }

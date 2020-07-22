@@ -1,6 +1,10 @@
+@font-face {
+  font-family: Magneto;
+  src: url(../../../assets/fonts/magnetob.ttf);
+}
+
 * {
   text-align: center;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 header {
@@ -12,8 +16,14 @@ header {
 }
 
 #title_musiquea {
+  font-family: Magneto;
   background-color: #272727;
   width: 100%;
+  padding: 0px;
+}
+
+#logoMusiquea {
+  width: 55px;
 }
 
 #div_search {

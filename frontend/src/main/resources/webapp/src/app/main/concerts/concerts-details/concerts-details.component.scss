@@ -1,35 +1,146 @@
 * {
-    text-align: center;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  }
-  
-  header {
-    position: fixed;
-    z-index: 1;
-    width: 100%;
-    margin: 0px;
-    padding-bottom: 0px;
-  }
+  text-align: center;
+}
 
-  #header {
-    background-color: #F2B705;
-    width: 100%;
-    box-shadow: 0px 2px 4px gray;
-  }
-  
-  h1 a {
-    text-decoration: none;
-    color: whitesmoke;
-    margin-bottom: 0.8em;
-  }
-  
-  #search {
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    text-align: left;
-    border: none;
-    border-radius: 3px;
-    padding: 0.6em;
-    width: 24em;
-    box-shadow: 1px 2px 7px #272727;
-  }
+#header_details {
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  margin: 0px;
+  padding: 16px;
+  background-color: #F2B705;
+  box-shadow: 0px 2px 4px #272727;
+}
+
+#logoMusiquea {
+  width: 60px;
+  margin: 4px 0px 0px -45%;
+  position: fixed;
+}
+
+#search {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  text-align: left;
+  border: none;
+  border-radius: 3px;
+  padding: 0.6em;
+  width: 24em;
+  box-shadow: 1px 2px 7px #272727;
+}
+
+#details {
+  background-color: #E1E1E1;
+}
+
+h3 {
+  color: #272727;
+  margin-top: 0px;
+  padding-top: 110px;
+}
+
+hr {
+  width: 5em;
+  border: 1px solid #F2B705;
+  margin-bottom: 25px;
+}
+
+p {
+  font-family: 'Roboto', sans-serif;
+  color: #272727;
+  font-weight: bold;
+}
+
+#concert_name {
+  margin: 15px 25% 20px 25%;
+  text-align: center;
+  font-size: 22px;
+}
+
+#concert_date {
+  padding-top: 6px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+#location_icon {
+  width: 18px;
+}
+
+a#location_url {
+  color: #272727;
+  font-family: 'Roboto', sans-serif;
+  padding-bottom: 0px;
+}
+
+#artist_image {
+  width: 50%;
+  height: auto;
+  box-shadow: 0px 3px 10px #272727;
+}
+
+#transparent {
+  top: 575px;
+  width: 50%;
+  left:0;
+  right:0;
+  margin-left:auto;
+  margin-right:auto;
+  position: absolute;
+  opacity:0.6;
+  filter: alpha(opacity=60);
+}
+
+#background {
+  width: 100%;
+  height: 105px;
+  left:0;
+  right:0;
+  margin-left:auto;
+  margin-right:auto;
+  position: absolute;
+  background-color: #272727;
+}
+
+#div_artist {
+  top: 550px;
+  width: 50%;
+  left:0;
+  right:0;
+  margin-left:auto;
+  margin-right:auto;
+  position: absolute;
+}
+
+#artist_name {
+  font-size: 30px;
+  font-weight: bold;
+  text-shadow: 0px 0px 8px black;
+  color: white;
+}
+
+#artist_genre {
+  font-weight: bold;
+  text-shadow: 0px 0px 8px black;
+  color: white;
+}
+
+#collaboratorsTitle {
+  display: none;
+}
+
+#collaborators {
+  margin-bottom: 30px;
+}
+
+#tickets {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 50px;
+  padding: 9px 60px 9px 60px;
+  color: #272727;
+  background-color: #F2B705;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 0px 3px 10px #272727;
+}

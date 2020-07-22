@@ -42,4 +42,15 @@ export class ConcertsDetailsComponent implements OnInit {
       });
     }
   }
+
+  getButtonValue(type_id: any) {
+    let buttonValue = "";
+    if (type_id == 1) {
+      buttonValue == "{{ 'STREAMING' | oTranslate }}";
+    } else {
+      buttonValue == "{{ 'TICKETS' | oTranslate }}";
+    }
+    return buttonValue;
+  }
+
 }

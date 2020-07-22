@@ -18,7 +18,7 @@ export class RecommendationsCardsComponent implements OnInit {
 	}
 
 	public openDetail() {
-		this.router.navigate(['../../../../concerts'], { relativeTo: this.actRoute });
+		this.router.navigate(['../../../../concerts/7'], { relativeTo: this.actRoute });
 	}
 	
 	public getCollaborators(collaborators: any) {

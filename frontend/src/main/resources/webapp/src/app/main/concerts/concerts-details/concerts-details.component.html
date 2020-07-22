@@ -1,30 +1,40 @@
-<header>
-  <div id="header" fxLayout="row" layout-padding fxLayoutAlign="center center">
-    <h1><a (click)="goHome()">MUSIQUEA</a></h1>
+<div id="header_details" fxLayout="row" layout-padding fxLayoutAlign="center center">
+  <img id="logoMusiquea" src="../../../../assets/images/logoMusiqueaBlackShadows.png" (click)="goHome()"/>
+  <form #myform="ngForm">
+    <div id="formSearch">
+      <label for="search"></label>
+      <input #searchText maxlength="256" placeholder="{{ 'SEARCH' | oTranslate }}" type="text" value="" name="search"
+        id="search" [(ngModel)]="search" (keydown.enter)="onSubmit($event.target.value)" />
+    </div>
+  </form>
+</div>
 
-    <form #myform="ngForm">
-      <div id="formSearch">
-        <label for="search"></label>
-        <input
-          #searchText
-          maxlength="256"
-          placeholder="{{ 'SEARCH' | oTranslate }}"
-          type="text"
-          value=""
-          name="search"
-          id="search"
-          [(ngModel)]="search"
-          (keydown.enter)="onSubmit($event.target.value)"
-        />
-      </div>
+<div id="details">
+  <div id="container">
+    <h3>Detalles del evento</h3>
+    <hr>
+    <p id="concert_name">{{ det.concert_name }}</p>
+    <p id="concert_date">{{ getDate(det.concert_date) }}</p>
+    <p id="location">
+      <img id="location_icon" src="../../../../assets/images/location_icon.png"/>&nbsp;
+      <a id="location_url" href="https://www.google.com/maps/search/?api=1&query={{ det.place_name}}+{{ det.city}}+{{ det.province }}">
+        {{ det.place_name}}, {{ det.city}}, {{ det.province }}
+      </a>
+     </p>
+    <img id="artist_image" src="data:image/jpeg;base64,{{ det.artist_image }}" alt="Foto de {{ det.artist_name }}"/>
+    <div id="transparent">
+      <div id="background"></div>
+    </div>
+    <div id="div_artist">
+      <p id="artist_name">{{ det.artist_name }}</p>
+      <p id="artist_genre">{{ det.genre_name }}</p>
+    </div>
+    <p id="collaboratorsTitle">Artistas invitados</p>
+    <ul id="collaborators"></ul>
+    <form id="formTickets">
+      <label for="tickets"></label>
+      <input id="tickets" type="button" value="getButtonValue({{ det.type_id }})"
+        onClick="window.location='{{ det.concert_url }}';" name="tickets" />
     </form>
   </div>
-</header>
-<div id="details">
-
-
-
-</div>
-<div id="details">
-  <h3>No se ha encontrado el concierto seleccionado.</h3>
 </div>
