@@ -50,10 +50,7 @@ export class ResultsCardsComponent implements OnInit {
   }
 
   public openDetail(concertId: number) {
-    // this.router.navigate(["../../../../concerts/" + concertId], {
-		// 	relativeTo: this.actRoute
-		// });
-		this.router.navigate(['main/concerts', concertId]);
+					this.router.navigate(['main/concerts', concertId]);
   }
 
   public getCollaborators(collaborators: any) {

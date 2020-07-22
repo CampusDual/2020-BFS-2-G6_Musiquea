@@ -45,7 +45,7 @@
 				<FunctionColumn name="collaborators"
 					value="string_agg(collaborator_name, ', ')" />
 				<FunctionColumn name="genres"
-					value="string_agg(g.genre_name, ', ')" />
+					value="string_agg(distinct g.genre_name, ', ')" />
 			</FunctionColumns>
 			<Sentence>
                 <![CDATA[

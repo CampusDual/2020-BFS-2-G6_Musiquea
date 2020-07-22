@@ -1,33 +1,52 @@
-<header>
-  <div class="header" fxLayout="row" layout-padding fxLayoutAlign="center center">
-    <h1><a (click)="goHome()">MUSIQUEA</a></h1>
+  <div class="header_details" fxLayout="row" layout-padding fxLayoutAlign="center center">
+    <img id="logoMusiquea" src="../../../../assets/images/logoMusiqueaBlackShadows.png" (click)="goHome()" />
 
-    <form #myform="ngForm">
-      <div #formSearch>
+    <form>
+      <div #formSearch class="formSearch">
         <label for="search"></label>
-        <input #search class="search" maxlength="256" placeholder="{{ 'SEARCH' | oTranslate }}" type="text" value="" name="search"
-          (keydown.enter)="onSubmit($event.target.value)" />
+        <input #search class="search" maxlength="256" placeholder="{{ 'SEARCH' | oTranslate }}" type="text" value=""
+          name="search" (keydown.enter)="onSubmit($event.target.value)" />
       </div>
     </form>
   </div>
-</header>
-<div class="details" *ngIf="getDetails()">
 
-  <o-grid #grid class="container-grid" [cols]="4" show-page-size="true" page-size-options="8" orderable="yes"
-    quick-filter="no" fixed-header="no" controls="no" detail-mode="none" gutter-size="1px">
-    <o-grid-item *ngFor="let item of getDetails()" class="card-item">
-      <o-column layout-padding class="container-item">
-        <img src="data:image/jpeg;base64,{{ item.concert_image }}" alt="Cartel del concierto" />
-        <p class="name">
-          {{ item.artist_name }} {{ getCollaborators(item.collaborators) }}
-        </p>
-        <p class="location">{{ getPlace(item.place_name, item.city) }}</p>
-        <p class="date">{{ getDate(item.concert_date) }}</p>
-      </o-column>
-    </o-grid-item>
-  </o-grid>
-</div>
-<div class="details" *ngIf="!getDetails()">
-  <br><br><br><br><br><br><br><br><br><br><br>
-  <h3>No se ha encontrado el concierto seleccionado.</h3>
-</div>
+  <div class="details" *ngIf="getDetails()">
+    <div class="container" *ngFor="let det of getDetails()">
+      <h3>Detalles del evento</h3>
+      <hr>
+      <p class="concert_name">{{ det.concert_name }}</p>
+      <p class="concert_date">{{ getDate(det.concert_date) }}</p>
+      <p class="location" *ngIf="getPlace(det.place_name, det.city, det.province)">
+        <img class="location_icon" src="../../../../assets/images/location_icon.png" />&nbsp;
+        <a class="location_url"
+          href="https://www.google.com/maps/search/?api=1&query={{ det.place_name}}+{{ det.city}}+{{ det.province }}">
+          {{ det.place_name}}, {{ det.city}}, {{ det.province }}
+        </a>
+      </p>
+      <p class="location" *ngIf="!getPlace(det.place_name, det.city, det.province)">
+        Concierto online
+      </p>
+      <img class="artist_image" src="data:image/jpeg;base64,{{ det.artist_image }}"
+        alt="Foto de {{ det.artist_name }}" />
+      <div class="transparent">
+        <div class="background"></div>
+      </div>
+      <div class="div_artist">
+        <p class="artist_name">{{ det.artist_name }}</p>
+        <p class="artist_genre">{{ det.genres }}</p>
+      </div>
+      <div *ngIf="getCollaborators(det.collaborators)">
+        <p class="collaboratorsTitle">Artistas invitados</p>
+        <p>{{ det.collaborators }}</p>
+      </div>
+      <form class="formTickets">
+        <label for="tickets"></label>
+        <a href="{{ det.concert_url }}">
+          <input class="tickets" type="button" value="{{ getButtonValue(det.type_id) | oTranslate }}" name="tickets" />
+        </a>
+      </form>
+    </div>
+  </div>
+  <div class="details" *ngIf="!getDetails()">
+    <h3>No se ha encontrado el concierto seleccionado.</h3>
+  </div>

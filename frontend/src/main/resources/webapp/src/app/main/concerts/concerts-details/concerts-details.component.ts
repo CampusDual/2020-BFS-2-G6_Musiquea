@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 import { PlatformLocation } from "@angular/common";
 import { IConcertsModel } from "./concerts.model";
@@ -10,11 +10,10 @@ import { ConcertsService } from "./concerts.service";
   styleUrls: ["./concerts-details.component.scss"],
 })
 export class ConcertsDetailsComponent implements OnInit {
-  @ViewChild("collaboratorsTitle") collaboratorsTitle: ElementRef;
-  @ViewChild("collaborators") collaborators: ElementRef;
 
-  details: IConcertsModel;
+  det: IConcertsModel;
 
+  collaborator: any;
   concertId: number;
   constructor(
     private router: Router,
@@ -56,50 +55,51 @@ export class ConcertsDetailsComponent implements OnInit {
       (resultData: any) => {
         if (resultData["data"]) {
           if (resultData["data"].length > 0) {
-            this.details = resultData["data"];
+            this.det = resultData["data"];
           } else {
-            this.details = null;
+            this.det = null;
           }
         }
       },
       (err) => console.error(err)
     );
 
-    return this.details;
+    return this.det;
   }
 
   getDetails() {
-    return this.details;
+    return this.det;
   }
 
   public getCollaborators(collaborators: string) {
     if (collaborators != null) {
-      this.collaboratorsTitle.nativeElement.style.display = "block";
-      let collaborator = new Array(collaborators.split(", "));
-      let list = this.collaborators.nativeElement;
-
-      while (list.firstChild) {
-        list.removeChild(list.firstChild);
-      }
-
-      for (const name in collaborator) {
-        let element = document.createElement("li");
-        element.innerHTML = name;
-        list.appendChild(element);
-      }
+      this.collaborator = new Array(collaborators.split(", "));
+      return true;
+    } else {
+      return false;
     }
   }
 
-  public getPlace(place_name: string, city: string) {
-    if (place_name == null && city == null) {
-      return "Concierto online";
+  public getPlace(place_name: string, city: string, province: string) {
+    if (place_name == null && city == null && province == null) {
+      return false;
     } else {
-      return place_name + ", " + city;
+      return true;
     }
   }
 
   public getDate(concert_date: Date) {
     return new Date(concert_date).toLocaleString();
+  }
+
+  getButtonValue(type_id: any) {
+    let buttonValue = "";
+    if (type_id == 1) {
+      buttonValue = 'STREAMING';
+    } else {
+      buttonValue = 'TICKETS';
+    }
+    return buttonValue;
   }
 
 }
