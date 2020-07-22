@@ -1,30 +1,33 @@
 <header>
-  <div id="header" fxLayout="row" layout-padding fxLayoutAlign="center center">
+  <div class="header" fxLayout="row" layout-padding fxLayoutAlign="center center">
     <h1><a (click)="goHome()">MUSIQUEA</a></h1>
 
     <form #myform="ngForm">
-      <div id="formSearch">
+      <div #formSearch>
         <label for="search"></label>
-        <input
-          #searchText
-          maxlength="256"
-          placeholder="{{ 'SEARCH' | oTranslate }}"
-          type="text"
-          value=""
-          name="search"
-          id="search"
-          [(ngModel)]="search"
-          (keydown.enter)="onSubmit($event.target.value)"
-        />
+        <input #search class="search" maxlength="256" placeholder="{{ 'SEARCH' | oTranslate }}" type="text" value="" name="search"
+          (keydown.enter)="onSubmit($event.target.value)" />
       </div>
     </form>
   </div>
 </header>
-<div id="details">
+<div class="details" *ngIf="getDetails()">
 
-
-
+  <o-grid #grid class="container-grid" [cols]="4" show-page-size="true" page-size-options="8" orderable="yes"
+    quick-filter="no" fixed-header="no" controls="no" detail-mode="none" gutter-size="1px">
+    <o-grid-item *ngFor="let item of getDetails()" class="card-item">
+      <o-column layout-padding class="container-item">
+        <img src="data:image/jpeg;base64,{{ item.concert_image }}" alt="Cartel del concierto" />
+        <p class="name">
+          {{ item.artist_name }} {{ getCollaborators(item.collaborators) }}
+        </p>
+        <p class="location">{{ getPlace(item.place_name, item.city) }}</p>
+        <p class="date">{{ getDate(item.concert_date) }}</p>
+      </o-column>
+    </o-grid-item>
+  </o-grid>
 </div>
-<div id="details">
+<div class="details" *ngIf="!getDetails()">
+  <br><br><br><br><br><br><br><br><br><br><br>
   <h3>No se ha encontrado el concierto seleccionado.</h3>
 </div>

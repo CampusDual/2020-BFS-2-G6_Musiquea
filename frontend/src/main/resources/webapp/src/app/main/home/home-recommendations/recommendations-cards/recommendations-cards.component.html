@@ -1,28 +1,12 @@
-<div id="recommended_concerts">
+<div class="recommended_concerts">
   <h3>Nuestras recomendaciones para ti</h3>
   <hr />
-  <o-grid
-    #grid
-    class="container-grid"
-    attr="concerts"
-    service="concerts"
-    entity="recommendedConcerts"
-    [cols]="4"
-    show-page-size="true"
-    page-size-options="8"
-    orderable="yes"
-    quick-filter="no"
-    fixed-header="no"
-    controls="no"
-    detail-mode="none"
-    gutter-size="1px"
-  >
+  <o-grid #grid class="container-grid" attr="concerts" service="concerts" entity="recommendedConcerts" [cols]="4"
+    show-page-size="true" page-size-options="8" orderable="yes" quick-filter="no" fixed-header="no" controls="no"
+    detail-mode="none" gutter-size="1px">
     <o-grid-item *ngFor="let item of grid.dataArray" class="card-item">
-      <o-column layout-padding class="container-item" (click)="openDetail()">
-        <img
-          src="data:image/jpeg;base64,{{ item.concert_image }}"
-          alt="Cartel del concierto"
-        />
+      <o-column layout-padding class="container-item" (click)="openDetail(item.concert_id)">
+        <img src="data:image/jpeg;base64,{{ item.concert_image }}" alt="Cartel del concierto" />
         <p class="name">
           {{ item.artist_name }} {{ getCollaborators(item.collaborators) }}
         </p>

@@ -1,4 +1,4 @@
-#results {
+.results {
   text-align: center;
   margin: 0px;
   background-color: whitesmoke;
@@ -17,7 +17,7 @@ hr {
   margin-bottom: 25px;
 }
 
-.container-item{
+.container-item {
   width: 80%;
   height: auto;
   font-family: 'Roboto', sans-serif;
@@ -27,16 +27,19 @@ hr {
   border-radius: 3px;
   margin: 0px;
   padding: 0px;
-  .name{
+
+  .name {
     margin: 10px 0px 5px 0px;
     font-size: 1.2em;
   }
+
   .location,
-  .date{
+  .date {
     font-size: 1em;
     margin: 5px;
   }
-  .date{
+
+  .date {
     margin-bottom: 10px;
   }
 }
@@ -48,7 +51,8 @@ img {
   object-fit: cover;
 }
 
-.card-item, figure.mat-figure {
+.card-item,
+figure.mat-figure {
   margin: 0px;
   padding: 0px;
 }

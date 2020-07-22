@@ -31,15 +31,11 @@ const routes: Routes = [
         loadChildren: loadHomeRecommendationsModule
       },
       {
-        path: 'results/',
+        path: 'results/:search/:month',
         loadChildren: loadHomeResultsModule
       },
       {
         path: 'results/:search',
-        loadChildren: loadHomeResultsModule
-      },
-      {
-        path: 'results/:search/:month',
         loadChildren: loadHomeResultsModule
       }
     ]

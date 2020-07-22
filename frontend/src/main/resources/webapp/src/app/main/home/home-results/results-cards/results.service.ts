@@ -72,44 +72,13 @@ export class ResultsService extends OntimizeEEService {
       date = year + "-" + month + "-" + day + "_" + (year + 1) + "-01-01";
     } else {
       if (month >= 1 && month <= 9 && month + 1 != 10) {
-        date =
-          year +
-          "-0" +
-          month +
-          "-" +
-          day +
-          "_" +
-          year +
-          "-0" +
-          (month + 1) +
-          "-01";
+        date = year + "-0" + month + "-" + day + "_" + year + "-0" + (month + 1) + "-01";
       } else if (month >= 1 && month <= 9 && month + 1 == 10) {
-        date =
-          year +
-          "-0" +
-          month +
-          "-" +
-          day +
-          "_" +
-          year +
-          "-" +
-          (month + 1) +
-          "-01";
+        date = year + "-0" + month + "-" + day + "_" + year + "-" + (month + 1) + "-01";
       } else {
-        date =
-          year +
-          "-" +
-          month +
-          "-" +
-          day +
-          "_" +
-          year +
-          "-" +
-          (month + 1) +
-          "-01";
+        date = year + "-" + month + "-" + day + "_" + year + "-" + (month + 1) + "-01";
       }
     }
-
     return date;
   }
 }

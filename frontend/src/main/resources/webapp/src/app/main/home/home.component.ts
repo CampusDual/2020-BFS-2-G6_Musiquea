@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 import { PlatformLocation } from "@angular/common";
 
 @Component({
@@ -8,39 +8,46 @@ import { PlatformLocation } from "@angular/common";
   styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit {
-  @ViewChild("searchText") searchText: ElementRef;
+  @ViewChild("search") search: ElementRef;
+  @ViewChild("formMonth") formMonth: ElementRef;
+  @ViewChild("month") month: ElementRef;
 
-  search: string;
-  router: string;
+  searchValue: string;
+
   constructor(
-    private _router: Router,
+    private router: Router,
     private actRoute: ActivatedRoute,
     private location: PlatformLocation
   ) {
-    this.router = _router.url;
-
     this.location.onPopState(() => {
       this.goHome();
     });
   }
 
   ngOnInit() {
-    document.getElementById("formMonth").style.display = "none";
+    this.formMonth.nativeElement.style.display = "none";
+    const myData = localStorage.getItem("search");
+    if (myData != null) {
+      this.formMonth.nativeElement.style.display = "block";
+      this.search.nativeElement.value = myData;
+      this.getNextMonths();
+    }
   }
 
   goHome() {
-    this._router.navigate(["../home/recommendations"], {
-      relativeTo: this.actRoute,
+    this.router.navigate(["../home/recommendations"], {
+      relativeTo: this.actRoute
     });
-    let div = document.getElementById("formMonth");
-    div.style.display = "none";
-    this.search = "";
+    this.formMonth.nativeElement.style.display = "none";
+    localStorage.removeItem("search");
   }
 
   changeMonth($event) {
-    let searchValue = this.searchText.nativeElement.value;
-    this._router.navigate(["../home/results/" + searchValue + "/" + $event], {
-      relativeTo: this.actRoute,
+    if (this.search.nativeElement.value != "") {
+      this.searchValue = this.search.nativeElement.value
+    }
+    this.router.navigate(["../home/results/" + this.searchValue + "/" + $event], {
+      relativeTo: this.actRoute
     });
   }
 
@@ -48,20 +55,17 @@ export class HomeComponent implements OnInit {
     if ($event == "") {
       this.goHome();
     } else {
-      this._router.navigate(["../home/results/" + $event], {
-        relativeTo: this.actRoute,
+      this.router.navigate(["../home/results/" + $event], {
+        relativeTo: this.actRoute
       });
-      let month = document.getElementById("formMonth");
-      month.style.display = "block";
+      this.formMonth.nativeElement.style.display = "block";
       this.getNextMonths();
     }
   }
 
   getNextMonths() {
-    let select = document.getElementById("month");
-
-    while (select.firstChild) {
-      select.removeChild(select.firstChild);
+    while (this.month.nativeElement.firstChild) {
+      this.month.nativeElement.removeChild(this.month.nativeElement.firstChild);
     }
 
     let currentDate = new Date();
@@ -85,45 +89,15 @@ export class HomeComponent implements OnInit {
           year + "-" + month + "-" + day + "_" + (year + 1) + "-01-01";
       } else {
         if (month >= 1 && month <= 9 && month + 1 != 10) {
-          option.value =
-            year +
-            "-0" +
-            month +
-            "-" +
-            day +
-            "_" +
-            year +
-            "-0" +
-            (month + 1) +
-            "-01";
+          option.value = year + "-0" + month + "-" + day + "_" + year + "-0" + (month + 1) + "-01";
         } else if (month >= 1 && month <= 9 && month + 1 == 10) {
-          option.value =
-            year +
-            "-0" +
-            month +
-            "-" +
-            day +
-            "_" +
-            year +
-            "-" +
-            (month + 1) +
-            "-01";
+          option.value = year + "-0" + month + "-" + day + "_" + year + "-" + (month + 1) + "-01";
         } else {
-          option.value =
-            year +
-            "-" +
-            month +
-            "-" +
-            day +
-            "_" +
-            year +
-            "-" +
-            (month + 1) +
-            "-01";
+          option.value = year + "-" + month + "-" + day + "_" + year + "-" + (month + 1) + "-01";
         }
       }
       option.innerHTML = this.getMonthName(month);
-      select.appendChild(option);
+      this.month.nativeElement.appendChild(option);
       month++;
     }
 
@@ -136,7 +110,7 @@ export class HomeComponent implements OnInit {
         option.value = this.getOptionValue(month, year);
       }
       option.innerHTML = this.getMonthName(month);
-      select.appendChild(option);
+      this.month.nativeElement.appendChild(option);
       month++;
     } while (month <= 12);
 
@@ -147,7 +121,7 @@ export class HomeComponent implements OnInit {
       let year = currentDate.getUTCFullYear() + 1;
       option.value = this.getOptionValue(month, year);
       option.innerHTML = this.getMonthName(month);
-      select.appendChild(option);
+      this.month.nativeElement.appendChild(option);
       month++;
     } while (month < currentMonth);
   }
