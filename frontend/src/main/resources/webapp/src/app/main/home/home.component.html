@@ -1,5 +1,20 @@
-<div fxLayout="row" layout-padding fxLayoutAlign="center center">
-  <p>
-    Ontimize web seed application home component
-  </p>
-</div>
+<header>
+  <div class="title_musiquea" fxLayout="row" layout-padding fxLayoutAlign="center center">
+    <img class="logoMusiquea" src="../../../../assets/images/logoMusiqueaYellow.png" (click)="goHome()"/>
+    <h1><a (click)="goHome()">&nbsp;Musiquea</a></h1>
+  </div>
+  <div class="div_search" fxLayout="row" layout-padding fxLayoutAlign="center center">
+    <form>
+      <div #formSearch class="formSearch">
+        <label for="search"></label>
+        <input #search class="search" maxlength="256" placeholder="{{ 'SEARCH' | oTranslate }}" type="text" value=""
+          name="search" (keydown.enter)="onSubmit($event.target.value)" />
+      </div>
+      <div #formMonth class="formMonth" [hidden]="!router.url.includes('results')">
+        <label for="month"></label>
+        <select #month class="month" name="month" (change)="changeMonth($event.target.value)"></select>
+      </div>
+    </form>
+  </div>
+</header>
+<router-outlet></router-outlet>

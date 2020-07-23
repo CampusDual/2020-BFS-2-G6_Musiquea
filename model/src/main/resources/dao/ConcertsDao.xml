@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<JdbcEntitySetup
+	xmlns="http://www.ontimize.com/schema/jdbc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ontimize.com/schema/jdbc http://www.ontimize.com/schema/jdbc/ontimize-jdbc-dao.xsd"
+	catalog="" schema="${mainschema}" table="CONCERTS"
+	datasource="mainDataSource" sqlhandler="dbSQLStatementHandler">
+	<DeleteKeys>
+		<Column>CONCERT_ID</Column>
+	</DeleteKeys>
+	<UpdateKeys>
+		<Column>CONCERT_ID</Column>
+	</UpdateKeys>
+	<GeneratedKey>concert_id</GeneratedKey>
+	<Queries>
+		<Query id="recommendedConcerts">
+			<AmbiguousColumns>
+				<AmbiguousColumn name="concert_id" prefix="C" />
+			</AmbiguousColumns>
+			<FunctionColumns>
+				<FunctionColumn name="collaborators"
+					value="count(collaborator_id)" />
+			</FunctionColumns>
+			<Sentence>
+                <![CDATA[
+                    SELECT 
+                        #COLUMNS#
+                    FROM                        
+                        ${mainschema}.CONCERTS C
+                    LEFT OUTER JOIN ${mainschema}.VIEWERS V ON C.CONCERT_ID = V.CONCERT_ID
+                    LEFT OUTER JOIN ${mainschema}.PLACES P ON C.PLACE_ID = P.PLACE_ID
+                    LEFT OUTER JOIN ${mainschema}.ARTISTS A ON C.ARTIST_ID = A.ARTIST_ID
+                    LEFT OUTER JOIN ${mainschema}.COLLABORATORS_CONCERTS CC ON C.CONCERT_ID = CC.CONCERT_ID
+                    #WHERE#
+                    GROUP BY C.CONCERT_ID, CONCERT_DATE, TYPE_ID, PLACE_NAME, CITY, COUNT_VIEWERS, ARTIST_NAME
+                    ORDER BY V.COUNT_VIEWERS DESC
+                ]]>
+            </Sentence>
+		</Query>
+		<Query id="concertDetails">
+			<AmbiguousColumns>
+				<AmbiguousColumn name="concert_id" prefix="C" />
+			</AmbiguousColumns>
+			<FunctionColumns>
+				<FunctionColumn name="collaborators"
+					value="string_agg(collaborator_name, ', ')" />
+				<FunctionColumn name="genres"
+					value="string_agg(distinct g.genre_name, ', ')" />
+			</FunctionColumns>
+			<Sentence>
+                <![CDATA[
+                    SELECT 
+                        #COLUMNS#
+                    FROM                        
+                        ${mainschema}.CONCERTS C
+                    LEFT OUTER JOIN ${mainschema}.ARTISTS A ON C.ARTIST_ID = A.ARTIST_ID
+                    LEFT OUTER JOIN ${mainschema}.ARTISTS_GENRES AG ON A.ARTIST_ID = AG.ARTIST_ID
+                    LEFT OUTER JOIN ${mainschema}.GENRES G ON AG.GENRE_ID = G.GENRE_ID
+                    LEFT OUTER JOIN ${mainschema}.PLACES P ON C.PLACE_ID = P.PLACE_ID
+                    LEFT OUTER JOIN ${mainschema}.COLLABORATORS_CONCERTS CC ON C.CONCERT_ID = CC.CONCERT_ID
+                    LEFT OUTER JOIN ${mainschema}.COLLABORATORS CO ON CC.COLLABORATOR_ID = CO.COLLABORATOR_ID
+                    GROUP BY C.CONCERT_ID, CONCERT_NAME, CONCERT_DATE, CONCERT_URL, TYPE_ID, PLACE_NAME, CITY, PROVINCE, ARTIST_NAME, ARTIST_IMAGE
+                ]]>
+            </Sentence>
+		</Query>
+		<Query id="searchedConcert">
+			<AmbiguousColumns>
+				<AmbiguousColumn name="concert_id" prefix="C" />
+			</AmbiguousColumns>
+			<FunctionColumns>
+				<FunctionColumn name="collaborators"
+					value="count(collaborator_id)" />
+			</FunctionColumns>
+			<Sentence>
+                <![CDATA[
+                    SELECT 
+                        #COLUMNS#
+                    FROM                        
+                        ${mainschema}.CONCERTS C
+                    LEFT OUTER JOIN ${mainschema}.PLACES P ON C.PLACE_ID = P.PLACE_ID
+                    LEFT OUTER JOIN ${mainschema}.ARTISTS A ON C.ARTIST_ID = A.ARTIST_ID
+                    LEFT OUTER JOIN ${mainschema}.COLLABORATORS_CONCERTS CC ON C.CONCERT_ID = CC.CONCERT_ID
+                    #WHERE#
+                    GROUP BY C.CONCERT_ID, CONCERT_DATE, TYPE_ID, PLACE_NAME, CITY, ARTIST_NAME
+                    ORDER BY C.CONCERT_DATE
+                ]]>
+            </Sentence>
+		</Query>
+	</Queries>
+</JdbcEntitySetup>
