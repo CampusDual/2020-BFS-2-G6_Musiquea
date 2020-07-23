@@ -17,10 +17,10 @@ export class RecommendationsCardsComponent implements OnInit {
 	ngOnInit() {
 	}
 
-	public openDetail() {
-		this.router.navigate(['../../../../concerts'], { relativeTo: this.actRoute });
+	public openDetail(concertId: number) {
+		this.router.navigate(['main/concerts', concertId]);
 	}
-	
+
 	public getCollaborators(collaborators: any) {
 		if (collaborators == 0) {
 			return "";
@@ -28,7 +28,7 @@ export class RecommendationsCardsComponent implements OnInit {
 			return " +";
 		}
 	}
-	
+
 	public getPlace(place_name: string, city: string) {
 		if (place_name == null && city == null) {
 			return "Concierto online";

@@ -193,7 +193,11 @@ public class ConcertsService implements IConcertsService {
 	}
 
 	private EntityResult getRecommendedConcerts() {
-		return this.daoHelper.query(this.concertsDao, new HashMap<String, Object>(),
+		Map<String, Object> key = new HashMap<String, Object>();
+		key.put(SQLStatementBuilder.ExtendedSQLConditionValuesProcessor.EXPRESSION_KEY,
+				searchRecommended(ConcertsDao.ATTR_CONCERT_DATE));
+
+		return this.daoHelper.query(this.concertsDao, key,
 				Arrays.asList(ConcertsDao.ATTR_CONCERT_ID, ConcertsDao.ATTR_CONCERT_IMAGE,
 						ConcertsDao.ATTR_CONCERT_DATE, ConcertsDao.ATTR_TYPE_ID, PlacesDao.ATTR_PLACE_NAME,
 						PlacesDao.ATTR_CITY, ViewersDao.ATTR_COUNT_VIEWERS, ArtistsDao.ATTR_ARTIST_NAME,
@@ -210,6 +214,14 @@ public class ConcertsService implements IConcertsService {
 		String numberRecommeded = parts2[0];
 
 		return Integer.parseInt(numberRecommeded);
+	}
+
+	private BasicExpression searchRecommended(String param) {
+		Date startDate = new Date();
+		startDate.getTime();
+
+		BasicField field = new BasicField(param);
+		return new BasicExpression(field, BasicOperator.MORE_EQUAL_OP, startDate);
 	}
 
 	@Override
@@ -236,16 +248,18 @@ public class ConcertsService implements IConcertsService {
 			EntityResult query = this.viewersQuery(concertIdSelected,
 					Arrays.asList(ViewersDao.ATTR_VIEWER_ID, ViewersDao.ATTR_COUNT_VIEWERS));
 
-			int viewerId = Integer.parseInt(query.getRecordValues(0).get("viewer_id").toString());
-			int currentCountViewers = Integer.parseInt(query.getRecordValues(0).get("count_viewers").toString());
+			if (!query.isEmpty()) {
+				int viewerId = Integer.parseInt(query.getRecordValues(0).get("viewer_id").toString());
+				int currentCountViewers = Integer.parseInt(query.getRecordValues(0).get("count_viewers").toString());
 
-			Map<String, Object> attrMap = new HashMap<String, Object>();
-			attrMap.put(ViewersDao.ATTR_COUNT_VIEWERS, (currentCountViewers + 1));
+				Map<String, Object> attrMap = new HashMap<String, Object>();
+				attrMap.put(ViewersDao.ATTR_COUNT_VIEWERS, (currentCountViewers + 1));
 
-			Map<String, Object> keysValues = new HashMap<String, Object>();
-			keysValues.put("VIEWER_ID", viewerId);
+				Map<String, Object> keysValues = new HashMap<String, Object>();
+				keysValues.put("VIEWER_ID", viewerId);
 
-			this.viewersUpdate(attrMap, keysValues);
+				this.viewersUpdate(attrMap, keysValues);
+			}
 
 			return finalres;
 		} catch (Exception e) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { ResultsService } from "./results.service";
 import { IResultsModel } from "./results.model";
@@ -9,29 +9,28 @@ import { IResultsModel } from "./results.model";
   styleUrls: ["./results-cards.component.scss"],
 })
 export class ResultsCardsComponent implements OnInit {
-  @ViewChild("searchValue") searchValue: ElementRef;
 
-  private results: IResultsModel;
-  public searchText: string;
-  public monthText: string;
+  results: IResultsModel;
+
+  searchValue: string;
+  monthValue: string;
 
   constructor(
     private router: Router,
-    private _route: ActivatedRoute,
+    private actRoute: ActivatedRoute,
     private resultsService: ResultsService
-  ) {
-  }
+  ) { }
 
   ngOnInit() {
-    this._route.paramMap.subscribe((params: ParamMap) => {
-      this.searchText = params.get("search");
-      this.monthText = params.get("month");
-      this.ngOnStartSearch(this.searchText, this.monthText);
+    this.actRoute.paramMap.subscribe((params: ParamMap) => {
+      this.searchValue = params.get("search");
+      this.monthValue = params.get("month");
+      this.ngOnStartSearch(this.searchValue, this.monthValue);
     });
   }
 
-  ngOnStartSearch(searchText: string, monthText?: string) {
-    this.resultsService.getResultData(searchText, monthText).subscribe(
+  ngOnStartSearch(searchValue: string, monthValue?: string) {
+    this.resultsService.getResultData(searchValue, monthValue).subscribe(
       (resultData: any) => {
         if (resultData["data"]) {
           if (resultData["data"].length > 0) {
@@ -50,10 +49,8 @@ export class ResultsCardsComponent implements OnInit {
     return this.results;
   }
 
-  public openDetail() {
-    this.router.navigate(["../../../../../concerts"], {
-      relativeTo: this._route,
-    });
+  public openDetail(concertId: number) {
+					this.router.navigate(['main/concerts', concertId]);
   }
 
   public getCollaborators(collaborators: any) {

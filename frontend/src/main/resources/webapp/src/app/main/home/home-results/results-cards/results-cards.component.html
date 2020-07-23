@@ -1,10 +1,11 @@
-<div id="results" *ngIf="getResults()">
-  <h3>Resultados para '{{ searchText }}'</h3>
+<div class="results" *ngIf="getResults()">
+  <h3>Resultados para '{{ searchValue }}'</h3>
   <hr />
+
   <o-grid #grid class="container-grid" [cols]="4" show-page-size="true" page-size-options="8" orderable="yes"
     quick-filter="no" fixed-header="no" controls="no" detail-mode="none" gutter-size="1px">
     <o-grid-item *ngFor="let item of getResults()" class="card-item">
-      <o-column layout-padding class="container-item" (click)="openDetail()">
+      <o-column layout-padding class="container-item" (click)="openDetail(item.concert_id)">
         <img src="data:image/jpeg;base64,{{ item.concert_image }}" alt="Cartel del concierto" />
         <p class="name">
           {{ item.artist_name }} {{ getCollaborators(item.collaborators) }}
@@ -15,7 +16,7 @@
     </o-grid-item>
   </o-grid>
 </div>
-<div id="results" *ngIf="!getResults()">
-  <h3>No hay resultados para '{{ searchText }}'</h3>
+<div class="results" *ngIf="!getResults()">
+  <h3>No hay resultados para '{{ searchValue }}'</h3>
   <hr />
 </div>

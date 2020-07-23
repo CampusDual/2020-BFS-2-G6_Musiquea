@@ -15,5 +15,7 @@
   "ERROR_PASS_REQUIRED": "Incorrect password.",
   "ERROR_USER_PASS_INCORRECT": "Invalid username or password.",
   "MONTH": "Month",
-  "SEARCH": "Search"
+  "SEARCH": "Search concert...",
+  "TICKETS": "Buy tickets",
+  "STREAMING": "Watch streaming"
 }

@@ -1,40 +1,18 @@
 <header>
-  <div
-    id="title_musiquea"
-    fxLayout="row"
-    layout-padding
-    fxLayoutAlign="center center"
-  >
-    <h1><a (click)="goHome()">MUSIQUEA</a></h1>
+  <div class="title_musiquea" fxLayout="row" layout-padding fxLayoutAlign="center center">
+    <img class="logoMusiquea" src="../../../../assets/images/logoMusiqueaYellow.png" (click)="goHome()"/>
+    <h1><a (click)="goHome()">&nbsp;Musiquea</a></h1>
   </div>
-  <div
-    id="div_search"
-    fxLayout="row"
-    layout-padding
-    fxLayoutAlign="center center"
-  >
-    <form #myform="ngForm">
-      <div id="formSearch">
+  <div class="div_search" fxLayout="row" layout-padding fxLayoutAlign="center center">
+    <form>
+      <div #formSearch class="formSearch">
         <label for="search"></label>
-        <input
-          #searchText
-          maxlength="256"
-          placeholder="{{ 'SEARCH' | oTranslate }}"
-          type="text"
-          value=""
-          name="search"
-          id="search"
-          [(ngModel)]="search"
-          (keydown.enter)="onSubmit($event.target.value)"
-        />
+        <input #search class="search" maxlength="256" placeholder="{{ 'SEARCH' | oTranslate }}" type="text" value=""
+          name="search" (keydown.enter)="onSubmit($event.target.value)" />
       </div>
-      <div id="formMonth" [hidden]="!_router.url.includes('results')">
+      <div #formMonth class="formMonth" [hidden]="!router.url.includes('results')">
         <label for="month"></label>
-        <select
-          name="month"
-          id="month"
-          (change)="changeMonth($event.target.value)"
-        ></select>
+        <select #month class="month" name="month" (change)="changeMonth($event.target.value)"></select>
       </div>
     </form>
   </div>
