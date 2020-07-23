@@ -11,7 +11,7 @@
 
   <div class="details" *ngIf="getDetails()">
     <div class="container" *ngFor="let det of getDetails()">
-      <h3>Detalles del evento</h3>
+      <h3>Detalles del concierto</h3>
       <hr>
       <p class="concert_name">{{ det.concert_name }}</p>
       <p class="concert_date">{{ getDate(det.concert_date) }}</p>
@@ -47,5 +47,4 @@
     </div>
   </div>
   <div class="details" *ngIf="!getDetails()">
-    <h3>No se ha encontrado el concierto seleccionado.</h3>
   </div>
